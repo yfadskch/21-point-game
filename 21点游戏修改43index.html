@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>21 Point Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+            background-color: #222;
+            color: #fff;
+        }
+        .game-container {
+            margin: auto;
+            max-width: 600px;
+            background-color: #333;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        .cards {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        .card {
+            width: 60px;
+            height: 80px;
+            background-color: #fff;
+            color: #000;
+            margin: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            background-color: #4caf50;
+            color: #fff;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .score {
+            font-size: 20px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>21 Point Game</h1>
+    <div class="game-container">
+        <div class="cards" id="playerCards"></div>
+        <div class="score" id="playerScore">Player Score: 0</div>
+        <div class="cards" id="dealerCards"></div>
+        <div class="score" id="dealerScore">Dealer Score: 0</div>
+        <button onclick="hit()">Hit</button>
+        <button onclick="stand()">Stand</button>
+    </div>
+    <script>
+        const suits = ['♠', '♥', '♣', '♦'];
+        const values = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
+        let deck = [];
+        let playerHand = [];
+        let dealerHand = [];
+        
+        function createDeck() {
+            deck = [];
+            for (let suit of suits) {
+                for (let value of values) {
+                    deck.push({ suit, value });
+                }
+            }
+            deck.sort(() => Math.random() - 0.5);
+        }
+        
+        function calculateScore(hand) {
+            let score = 0;
+            let aces = 0;
+            for (let card of hand) {
+                if (card.value === 'A') {
+                    score += 11;
+                    aces++;
+                } else if (['J', 'Q', 'K'].includes(card.value)) {
+                    score += 10;
+                } else {
+                    score += parseInt(card.value);
+                }
+            }
+            while (score > 21 && aces > 0) {
+                score -= 10;
+                aces--;
+            }
+            return score;
+        }
+        
+        function renderHand(hand, containerId) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+            for (let card of hand) {
+                const cardDiv = document.createElement('div');
+                cardDiv.className = 'card';
+                cardDiv.textContent = `${card.value}${card.suit}`;
+                container.appendChild(cardDiv);
+            }
+        }
+        
+        function hit() {
+            playerHand.push(deck.pop());
+            renderHand(playerHand, 'playerCards');
+            document.getElementById('playerScore').textContent = `Player Score: ${calculateScore(playerHand)}`;
+            if (calculateScore(playerHand) > 21) {
+                alert('You busted! Dealer wins.');
+                resetGame();
+            }
+        }
+        
+        function stand() {
+            while (calculateScore(dealerHand) < 17) {
+                dealerHand.push(deck.pop());
+            }
+            renderHand(dealerHand, 'dealerCards');
+            document.getElementById('dealerScore').textContent = `Dealer Score: ${calculateScore(dealerHand)}`;
+            const playerScore = calculateScore(playerHand);
+            const dealerScore = calculateScore(dealerHand);
+            if (dealerScore > 21 || playerScore > dealerScore) {
+                alert('You win!');
+            } else if (playerScore < dealerScore) {
+                alert('Dealer wins!');
+            } else {
+                alert('It\'s a tie!');
+            }
+            resetGame();
+        }
+        
+        function resetGame() {
+            createDeck();
+            playerHand = [deck.pop(), deck.pop()];
+            dealerHand = [deck.pop()];
+            renderHand(playerHand, 'playerCards');
+            renderHand(dealerHand, 'dealerCards');
+            document.getElementById('playerScore').textContent = `Player Score: ${calculateScore(playerHand)}`;
+            document.getElementById('dealerScore').textContent = `Dealer Score: ${calculateScore(dealerHand)}`;
+        }
+        
+        createDeck();
+        resetGame();
+    </script>
+</body>
+</html>
