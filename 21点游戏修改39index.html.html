@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>21 Point Game - Enhanced Version</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+            background-color: #1a1a1a;
+            color: white;
+        }
+
+        #gameBoard {
+            margin: 20px auto;
+            width: 350px;
+            border: 2px solid white;
+            padding: 10px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+        }
+
+        .card {
+            display: inline-block;
+            width: 60px;
+            height: 80px;
+            border: 1px solid white;
+            margin: 5px;
+            background-color: white;
+            color: black;
+            text-align: center;
+            line-height: 80px;
+            font-size: 18px;
+            font-weight: bold;
+            transition: transform 0.5s ease, background-color 0.3s ease;
+            transform-origin: center;
+        }
+
+        .card.dealing {
+            position: absolute;
+            animation: slideIn 0.5s forwards, flip 0.5s 0.5s forwards;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-200px) scale(0.5);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes flip {
+            from {
+                transform: rotateY(90deg);
+            }
+            to {
+                transform: rotateY(0);
+            }
+        }
+
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #4caf50;
+            color: white;
+        }
+
+        #restart, #gameRecord {
+            display: none;
+        }
+
+        #recordsList {
+            margin-top: 20px;
+            text-align: left;
+            max-height: 200px;
+            overflow-y: scroll;
+        }
+
+        .recordEntry {
+            border-bottom: 1px solid grey;
+            padding: 5px;
+        }
+
+        @media (max-width: 600px) {
+            .card {
+                width: 50px;
+                height: 70px;
+                font-size: 14px;
+                line-height: 70px;
+            }
+
+            button {
+                font-size: 14px;
+                padding: 8px 16px;
+            }
+        }
+
+        #playerProgress, #dealerProgress {
+            width: 100%;
+            height: 20px;
+            margin: 10px 0;
+        }
+
+        #highlight {
+            color: gold;
+            font-weight: bold;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <h1>21 Point Game - Enhanced Version</h1>
+    <div id="playerNameContainer">
+        <label for="playerName">Enter your name:</label>
+        <input type="text" id="playerName" placeholder="Player Name">
+        <button onclick="setPlayerName()">Start Game</button>
+    </div>
+    <div id="gameBoard" style="display:none;">
+        <div id="playerHand">
+            <h3 id="playerLabel">Your Hand</h3>
+            <div id="playerCards"></div>
+            <p id="playerScore">Score: 0</p>
+            <progress id="playerProgress" max="21" value="0"></progress>
+        </div>
+        <div id="dealerHand">
+            <h3>Dealer's Hand</h3>
+            <div id="dealerCards"></div>
+            <p id="dealerScore">Score: 0</p>
+            <progress id="dealerProgress" max="21" value="0"></progress>
+        </div>
+        <button id="hitBtn" onclick="hit()">Hit</button>
+        <button id="standBtn" onclick="stand()">Stand</button>
+        <button id="restart" onclick="restartGame()">Restart</button>
+    </div>
+    <div id="gameRecord">
+        <h2>Game Records</h2>
+        <div id="recordsList"></div>
+    </div>
+    <p id="highlight"></p>
+    <script>
+        const suits = ['♠', '♥', '♣', '♦'];
+        const values = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
+        let deck, playerHand, dealerHand, playerName = 'Player', round = 1, playerWins = 0, dealerWins = 0, gameRecords = [];
+
+        function createDeck() {
+            const deck = [];
+            for (const suit of suits) {
+                for (const value of values) {
+                    deck.push({ suit, value });
+                }
+            }
+            return deck.sort(() => Math.random() - 0.5);
+        }
+
+        function calculateScore(hand) {
+            let score = 0, aceCount = 0;
+            hand.forEach(card => {
+                if (card.value === 'A') {
+                    score += 11;
+                    aceCount++;
+                } else if (['J', 'Q', 'K'].includes(card.value)) {
+                    score += 10;
+                } else {
+                    score += parseInt(card.value);
+                }
+            });
+            while (score > 21 && aceCount > 0) {
+                score -= 10;
+                aceCount--;
+            }
+            return score;
+        }
+
+        function displayHand(hand, containerId) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+            hand.forEach((card, index) => {
+                const cardDiv = document.createElement('div');
+                cardDiv.className = 'card';
+                cardDiv.textContent = `${card.value}${card.suit}`;
+                cardDiv.style.animationDelay = `${index * 0.2}s`;
+                cardDiv.classList.add('dealing');
+                setTimeout(() => cardDiv.classList.remove('dealing'), 1000);
+                container.appendChild(cardDiv);
+            });
+        }
+
+        function updateProgress() {
+            document.getElementById('playerProgress').value = calculateScore(playerHand);
+            document.getElementById('dealerProgress').value = calculateScore(dealerHand);
+        }
+
+        function setPlayerName() {
+            const nameInput = document.getElementById('playerName').value;
+            playerName = nameInput || 'Player';
+            document.getElementById('playerLabel').textContent = `${playerName}'s Hand`;
+            document.getElementById('playerNameContainer').style.display = 'none';
+            document.getElementById('gameBoard').style.display = 'block';
+            document.getElementById('gameRecord').style.display = 'block';
+            startGame();
+        }
+
+        function highlightSpecialRule(hand) {
+            const highlight = document.getElementById('highlight');
+            if (hand.length === 5 && calculateScore(hand) <= 21) {
+                highlight.textContent = `${playerName} achieved the Five Dragon Rule!`;
+            } else if (hand.length === 2 && hand[0].value === hand[1].value) {
+                highlight.textContent = `${playerName} got a Pair!`;
+            } else {
+                highlight.textContent = '';
+            }
+        }
+
+        function hit() {
+            playerHand.push(deck.pop());
+            displayHand(playerHand, 'playerCards');
+            document.getElementById('playerScore').textContent = `Score: ${calculateScore(playerHand)}`;
+            highlightSpecialRule(playerHand);
+            updateProgress();
+            if (calculateScore(playerHand) > 21) determineWinner();
+        }
+
+        function stand() {
+            while (calculateScore(dealerHand) < 17) {
+                dealerHand.push(deck.pop());
+            }
+            displayHand(dealerHand, 'dealerCards');
+            document.getElementById('dealerScore').textContent = `Score: ${calculateScore(dealerHand)}`;
+            updateProgress();
+            determineWinner();
+        }
+
+        function determineWinner() {
+            const playerScore = calculateScore(playerHand);
+            const dealerScore = calculateScore(dealerHand);
+            if (playerScore > 21) {
+                dealerWins++;
+                alert('You busted! Dealer wins.');
+            } else if (dealerScore > 21) {
+                playerWins++;
+                alert('Dealer busted! You win.');
+            } else if (playerScore > dealerScore) {
+                playerWins++;
+                alert('You win this round!');
+            } else if (playerScore < dealerScore) {
+                dealerWins++;
+                alert('Dealer wins this round.');
+            } else {
+                alert("It's a tie!");
+            }
+            gameRecords.push({ round, playerScore, dealerScore, result: playerScore > dealerScore ? 'Win' : (playerScore < dealerScore ? 'Loss' : 'Tie') });
+            updateRecordsDisplay();
+            if (round >= 5) {
+                alert('Game Over! Claim your reward: Free Credit 3 (klking88.com)');
+                const link = document.createElement('a');
+                link.href = 'https://klking88.com';
+                link.target = '_blank';
+                link.textContent = 'Click here to claim your reward!';
+                link.style.display = 'block';
+                link.style.color = 'gold';
+                link.style.marginTop = '20px';
+                document.body.appendChild(link);
+            } else {
+                round++;
+                startGame();
+            }
+        }
+
+        function startGame() {
+            deck = createDeck();
+            playerHand = [deck.pop(), deck.pop()];
+            dealerHand = [deck.pop(), deck.pop()];
+            displayHand(playerHand, 'playerCards');
+            displayHand(dealerHand, 'dealerCards');
+            document.getElementById('playerScore').textContent = `Score: ${calculateScore(playerHand)}`;
+            document.getElementById('dealerScore').textContent = `Score: ${calculateScore(dealerHand)}`;
+            updateProgress();
+        }
+
+        function updateRecordsDisplay() {
+            const recordsList = document.getElementById('recordsList');
+            recordsList.innerHTML = '';
+            gameRecords.forEach((record, index) => {
+                const entry = document.createElement('div');
+                entry.className = 'recordEntry';
+                entry.textContent = `Round ${index + 1}: Score - Player: ${record.playerScore}, Dealer: ${record.dealerScore} (${record.result})`;
+                recordsList.appendChild(entry);
+            });
+        }
+
+        startGame();
+    </script>
+</body>
+</html>
