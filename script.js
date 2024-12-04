@@ -1,8 +1,8 @@
-// Card Data
-const suits = ['red', 'black']; // Red = ♥️♦️, Black = ♠️♣️
+// 卡牌数据
+const suits = ['red', 'black']; // 红色：♥️，黑色：♠️
 const ranks = [2, 3, 4, 5, 6, 7, 8, 9, 10, 'J', 'Q', 'K', 'A'];
 let currentCard = generateRandomCard();
-let previousCard = { suit: '?', rank: '?' }; // Initial placeholder for previous card
+let previousCard = { suit: '?', rank: '?' }; // 初始占位
 
 function generateRandomCard() {
     const suit = suits[Math.floor(Math.random() * suits.length)];
@@ -14,11 +14,17 @@ function displayCards() {
     const prevCardDisplay = document.getElementById('previousCard');
     const currCardDisplay = document.getElementById('currentCard');
 
-    // Display previous card
-    prevCardDisplay.textContent = `${previousCard.rank} (${previousCard.suit === 'red' ? '♥️' : '♠️'})`;
+    // 显示上一张卡牌
+    prevCardDisplay.innerHTML = `
+        <div class="card-number">${previousCard.rank}</div>
+        <div class="card-suit">${previousCard.suit === 'red' ? '♥️' : '♠️'}</div>
+    `;
 
-    // Display current card
-    currCardDisplay.textContent = `${currentCard.rank} (${currentCard.suit === 'red' ? '♥️' : '♠️'})`;
+    // 显示当前卡牌
+    currCardDisplay.innerHTML = `
+        <div class="card-number">${currentCard.rank}</div>
+        <div class="card-suit">${currentCard.suit === 'red' ? '♥️' : '♠️'}</div>
+    `;
 }
 
 function makeGuess(guess) {
@@ -36,11 +42,11 @@ function makeGuess(guess) {
         message = '❌ Wrong Guess!';
     }
 
-    // Update previous and current card
+    // 更新卡牌
     previousCard = currentCard;
     currentCard = nextCard;
 
-    // Update card displays
+    // 更新显示
     displayCards();
     document.getElementById('message').textContent = message;
 }
@@ -48,22 +54,9 @@ function makeGuess(guess) {
 function nextCard() {
     previousCard = currentCard;
     currentCard = generateRandomCard();
-
-    // Add flip animation
-    const prevCardDisplay = document.getElementById('previousCard');
-    const currCardDisplay = document.getElementById('currentCard');
-    prevCardDisplay.classList.add('flip');
-    currCardDisplay.classList.add('flip');
-
-    setTimeout(() => {
-        displayCards();
-        prevCardDisplay.classList.remove('flip');
-        currCardDisplay.classList.remove('flip');
-    }, 500);
-
-    // Clear message
-    document.getElementById('message').textContent = '';
+    displayCards();
+    document.getElementById('message').textContent = ''; // 清空消息
 }
 
-// Initialize the card displays
+// 初始化显示
 displayCards();
