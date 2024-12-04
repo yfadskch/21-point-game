@@ -12,7 +12,10 @@
             <h1>Card Guessing Game</h1>
         </header>
         <main>
-            <div class="card-display" id="currentCard">?</div>
+            <div class="cards-container">
+                <div class="card-display" id="previousCard">?</div>
+                <div class="card-display" id="currentCard">?</div>
+            </div>
             <div class="controls">
                 <h2>Make a Guess:</h2>
                 <button class="guess-btn" onclick="makeGuess('high')">High</button>

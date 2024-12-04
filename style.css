@@ -19,7 +19,7 @@ body {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
     width: 90%;
-    max-width: 400px;
+    max-width: 500px;
 }
 
 /* Header */
@@ -29,14 +29,19 @@ header h1 {
     color: #007BFF;
 }
 
-/* Card Display */
+/* Cards Container */
+.cards-container {
+    display: flex;
+    justify-content: space-around;
+    margin: 20px 0;
+}
+
 .card-display {
-    font-size: 48px;
+    font-size: 36px;
     font-weight: bold;
-    margin: 20px auto;
-    width: 120px;
-    height: 180px;
-    line-height: 180px;
+    width: 100px;
+    height: 150px;
+    line-height: 150px;
     border: 2px solid #007BFF;
     border-radius: 10px;
     background: #f0f0f0;
@@ -44,6 +49,14 @@ header h1 {
     display: flex;
     justify-content: center;
     align-items: center;
+    transition: transform 0.5s;
+}
+
+/* Flip Animation */
+.card-display.flip {
+    transform: rotateY(180deg);
+    background: #007BFF;
+    color: white;
 }
 
 /* Controls */
