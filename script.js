@@ -16,17 +16,48 @@ function generateCard() {
     };
 }
 
+// 显示卡牌
 function displayCards() {
+    // 更新 previousCard（卡牌 1）
+    const prevCardElem = document.getElementById('previousCard');
+    prevCardElem.querySelector('.card-number').textContent = previousCard.rank;
+    prevCardElem.querySelector('.card-suit').textContent = suitSymbols[previousCard.suit] || '?';
+
+    // 更新 currentCard（卡牌 2）
+    const currCardElem = document.getElementById('currentCard');
+    currCardElem.querySelector('.card-number').textContent = currentCard.rank;
+    currCardElem.querySelector('.card-suit').textContent = suitSymbols[currentCard.suit];
+
+    // 更新 nextCard（卡牌 3，翻转状态）
+    const nextCardBackElem = document.querySelector('#nextCard .flip-card-back');
+    nextCardBackElem.querySelector('.card-number').textContent = nextCard.rank;
+    nextCardBackElem.querySelector('.card-suit').textContent = suitSymbols[nextCard.suit];
+
+    // 更新 Score 和 Credit
     document.getElementById('score').textContent = `Score: ${score}`;
     document.getElementById('credit').textContent = `Credit: ${credit}`;
     document.getElementById('bet').textContent = `Bet: ${bet}`;
 }
 
+// 翻转卡牌
+function flipCard() {
+    const card = document.getElementById('nextCard');
+    card.classList.add('flipped');
+}
+
+// 重置翻转卡牌
+function resetCard() {
+    const card = document.getElementById('nextCard');
+    card.classList.remove('flipped');
+}
+
+// 更改投注
 function changeBet(amount) {
     bet = amount;
     document.getElementById('bet').textContent = `Bet: ${bet}`;
 }
 
+// 猜测逻辑
 function makeGuess(guess) {
     if (credit < bet) {
         document.getElementById('message').textContent = '❌ Not enough Credit!';
@@ -36,6 +67,7 @@ function makeGuess(guess) {
     credit -= bet; // 扣除信用点数
     const message = document.getElementById('message');
 
+    // 判断结果
     const comparison = compareCards(currentCard, nextCard);
     if (
         (guess === 'high' && comparison < 0) ||
@@ -50,12 +82,15 @@ function makeGuess(guess) {
         message.textContent = '❌ Wrong!';
     }
 
-    previousCard = currentCard;
-    currentCard = nextCard;
-    nextCard = generateCard();
+    // 更新卡牌状态
+    previousCard = currentCard; // 当前卡牌成为上一张卡牌
+    currentCard = nextCard; // 下一张卡牌成为当前卡牌
+    nextCard = generateCard(); // 生成新的下一张卡牌
     displayCards();
+    resetCard(); // 重置翻转状态
 }
 
+// 卡牌比较逻辑
 function compareCards(card1, card2) {
     const rank1 = ranks.indexOf(card1.rank);
     const rank2 = ranks.indexOf(card2.rank);
@@ -63,6 +98,7 @@ function compareCards(card1, card2) {
     return suits.indexOf(card1.suit) - suits.indexOf(card2.suit);
 }
 
+// 积分兑换 Credit
 function redeemPoints() {
     if (score >= 100) {
         score -= 100;
@@ -74,4 +110,5 @@ function redeemPoints() {
     displayCards();
 }
 
+// 初始显示卡牌
 displayCards();
