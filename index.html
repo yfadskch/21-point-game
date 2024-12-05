@@ -7,28 +7,29 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
+    <div class="game-container">
         <h1>Card Guessing Game</h1>
         <div class="cards">
             <div class="card" id="card1">?</div>
             <div class="card" id="card2">?</div>
             <div class="card" id="card3">?</div>
         </div>
-        <div class="stats">
+        <div class="info">
             <p>Credit: <span id="credit">200</span> Bet: <span id="bet">10</span> Point: <span id="point">100</span></p>
         </div>
-        <div class="bet-buttons">
+        <div class="chips">
             <button class="chip" onclick="changeBet(10)">10</button>
             <button class="chip" onclick="changeBet(20)">20</button>
             <button class="chip" onclick="changeBet(50)">50</button>
         </div>
-        <div class="guess-buttons">
+        <p>Make a Guess:</p>
+        <div class="buttons">
             <button class="guess-btn" onclick="makeGuess('High')">High</button>
             <button class="guess-btn" onclick="makeGuess('Low')">Low</button>
             <button class="guess-btn" onclick="makeGuess('Red')">Red</button>
             <button class="guess-btn" onclick="makeGuess('Black')">Black</button>
         </div>
-        <button id="redeem-btn" onclick="redeemRewards()">Redeem Rewards</button>
+        <button class="redeem-btn" onclick="redeemRewards()">Redeem Rewards</button>
         <p id="result"></p>
     </div>
     <script src="script.js"></script>

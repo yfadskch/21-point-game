@@ -1,106 +1,101 @@
 body {
     font-family: Arial, sans-serif;
     text-align: center;
-    background-color: #f7f7f7;
-    color: #333;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
 }
 
-.container {
-    max-width: 600px;
-    margin: 0 auto;
+.game-container {
+    margin: 20px auto;
+    width: 400px;
+    background: white;
     padding: 20px;
-    background: #fff;
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-h1 {
-    font-size: 2rem;
-    margin-bottom: 20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 
 .cards {
     display: flex;
     justify-content: center;
-    margin-bottom: 20px;
+    gap: 10px;
 }
 
 .card {
     width: 60px;
     height: 100px;
-    margin: 0 10px;
-    font-size: 2rem;
-    font-weight: bold;
-    border: 2px solid #007bff;
+    border: 2px solid blue;
     border-radius: 10px;
     display: flex;
-    align-items: center;
     justify-content: center;
-    background: white;
+    align-items: center;
+    font-size: 24px;
+    font-weight: bold;
 }
 
-.stats p {
+.info {
     margin: 10px 0;
-    font-size: 1.2rem;
 }
 
-.bet-buttons {
+.chips {
     display: flex;
     justify-content: center;
-    margin: 20px 0;
+    gap: 10px;
+    margin: 10px 0;
 }
 
 .chip {
     width: 50px;
     height: 50px;
-    margin: 0 10px;
     border: none;
     border-radius: 50%;
-    color: white;
-    font-size: 1.1rem;
+    font-size: 16px;
     font-weight: bold;
-    background: #007bff;
+    color: white;
+    background-color: #3498db;
     cursor: pointer;
 }
 
 .chip:nth-child(2) {
-    background: #28a745;
+    background-color: #2ecc71;
 }
 
 .chip:nth-child(3) {
-    background: #ffc107;
+    background-color: #f1c40f;
 }
 
-.guess-buttons {
+.buttons {
     display: flex;
     justify-content: center;
-    margin: 20px 0;
+    gap: 10px;
 }
 
 .guess-btn {
-    margin: 0 10px;
     padding: 10px 20px;
-    font-size: 1rem;
+    font-size: 16px;
     font-weight: bold;
-    background: #ffc107;
+    color: white;
+    background-color: #f39c12;
     border: none;
     border-radius: 5px;
     cursor: pointer;
 }
 
-#redeem-btn {
-    margin-top: 20px;
+.redeem-btn {
     padding: 10px 20px;
-    font-size: 1.2rem;
+    font-size: 16px;
+    font-weight: bold;
     color: white;
-    background: #dc3545;
+    background-color: #e74c3c;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    margin: 10px 0;
 }
 
 #result {
-    font-size: 1.5rem;
-    margin-top: 20px;
+    font-size: 16px;
     font-weight: bold;
+    color: red;
+    margin: 10px 0;
 }
