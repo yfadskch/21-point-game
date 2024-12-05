@@ -59,4 +59,62 @@ function getSuitSymbol(suit) {
     switch (suit) {
         case 'club': return '♣️';
         case 'diamond': return '♦️';
-        case 'heart': return '♥️
+        case 'heart': return '♥️';
+        case 'spade': return '♠️';
+        default: return '?';
+    }
+}
+
+// 更改投注筹码
+function changeBet(amount) {
+    bet = amount;
+    document.getElementById('bet').textContent = `Bet: ${bet}`;
+}
+
+// 猜测逻辑
+function makeGuess(guess) {
+    const nextCard = generateRandomCard();
+    let message = '';
+    const comparison = compareCards(nextCard, currentCard); // 比较卡牌大小
+
+    if (
+        (guess === 'high' && comparison > 0) || // 下一张牌更大
+        (guess === 'low' && comparison < 0) ||  // 下一张牌更小
+        (guess === 'red' && (nextCard.suit === 'heart' || nextCard.suit === 'diamond')) || // 红色
+        (guess === 'black' && (nextCard.suit === 'club' || nextCard.suit === 'spade')) // 黑色
+    ) {
+        message = '🎉 Correct Guess!';
+        score += bet + rewardBonus; // 正确猜测时增加积分
+    } else {
+        message = '❌ Wrong Guess!';
+        score += bet; // 错误猜测时仅增加投注积分
+    }
+
+    previousCard = currentCard;
+    currentCard = nextCard;
+    displayCards();
+    document.getElementById('message').textContent = message;
+    document.getElementById('score').textContent = `Score: ${score}`;
+}
+
+// 下一张卡牌
+function nextCard() {
+    previousCard = currentCard;
+    currentCard = generateRandomCard();
+    displayCards();
+    document.getElementById('message').textContent = ''; // 清空消息
+}
+
+// 积分兑换逻辑
+function redeemPoints() {
+    if (score >= 100) {
+        score -= 100; // 扣除积分
+        alert('Redeemed 100 points for 10 chips!');
+    } else {
+        alert('Not enough points to redeem.');
+    }
+    document.getElementById('score').textContent = `Score: ${score}`;
+}
+
+// 初始化显示
+displayCards();
