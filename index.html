@@ -1,37 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Card Guessing Game</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Card Guessing Game</title>
 </head>
 <body>
-  <div class="game-container">
-    <h1>Card Guessing Game</h1>
-    <div class="cards">
-      <div class="card" id="card1">?</div>
-      <div class="card" id="card2">?</div>
-      <div class="card" id="card3">?</div>
+    <div class="game-container">
+        <h1>Card Guessing Game</h1>
+        <div class="card-container">
+            <div class="card" id="card1">?</div>
+            <div class="card" id="card2">?</div>
+            <div class="card" id="card3">?</div>
+        </div>
+        <div class="status">
+            <p>Credit: <span id="credit">200</span> Bet: <span id="bet">10</span> Point: <span id="point">100</span></p>
+        </div>
+        <div class="bet-buttons">
+            <button class="bet" onclick="changeBet(10)">10</button>
+            <button class="bet" onclick="changeBet(20)">20</button>
+            <button class="bet" onclick="changeBet(50)">50</button>
+        </div>
+        <div class="guess-buttons">
+            <button class="guess" onclick="makeGuess('High')">High</button>
+            <button class="guess" onclick="makeGuess('Low')">Low</button>
+            <button class="guess" onclick="makeGuess('Red')">Red</button>
+            <button class="guess" onclick="makeGuess('Black')">Black</button>
+        </div>
+        <button class="redeem-button" onclick="redeemRewards()">Redeem Rewards</button>
+        <p id="message" class="message"></p>
     </div>
-    <div class="info">
-      <p>Credit: <span id="credit">200</span> Bet: <span id="bet">10</span> Point: <span id="point">100</span></p>
-    </div>
-    <div class="betting">
-      <button class="chip blue" onclick="changeBet(10)">10</button>
-      <button class="chip green" onclick="changeBet(20)">20</button>
-      <button class="chip yellow" onclick="changeBet(50)">50</button>
-    </div>
-    <div class="guessing">
-      <p>Make a Guess:</p>
-      <button class="guess" onclick="makeGuess('High')">High</button>
-      <button class="guess" onclick="makeGuess('Low')">Low</button>
-      <button class="guess" onclick="makeGuess('Red')">Red</button>
-      <button class="guess" onclick="makeGuess('Black')">Black</button>
-    </div>
-    <button class="redeem-button" onclick="redeemRewards()">Redeem Rewards</button>
-    <p id="message" class="message"></p>
-  </div>
-  <script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
