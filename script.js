@@ -1,102 +1,83 @@
+const cards = [
+  { value: "A", suit: "hearts" },
+  { value: "2", suit: "diamonds" },
+  { value: "3", suit: "clubs" },
+  { value: "4", suit: "spades" },
+  { value: "5", suit: "hearts" },
+  { value: "6", suit: "diamonds" },
+  { value: "7", suit: "clubs" },
+  { value: "8", suit: "spades" },
+  { value: "9", suit: "hearts" },
+  { value: "10", suit: "diamonds" },
+  { value: "J", suit: "clubs" },
+  { value: "Q", suit: "spades" },
+  { value: "K", suit: "hearts" },
+];
+
 let credit = 200;
 let point = 100;
 let bet = 10;
+let currentCards = [];
 
-let cards = [];
-let currentCardIndex = 1;
-
-function initializeGame() {
-    cards = generateDeck();
-    updateCards();
-    document.getElementById('credit').textContent = credit;
-    document.getElementById('point').textContent = point;
-    document.getElementById('bet').textContent = bet;
-    document.getElementById('message').textContent = '';
-}
-
-function generateDeck() {
-    const suits = ['Hearts', 'Diamonds', 'Clubs', 'Spades'];
-    const values = Array.from({ length: 13 }, (_, i) => i + 1);
-    const deck = [];
-
-    for (let suit of suits) {
-        for (let value of values) {
-            deck.push({ value, suit });
-        }
-    }
-    return shuffle(deck);
-}
-
-function shuffle(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
-}
-
-function updateCards() {
-    document.getElementById('card1').textContent = cards[currentCardIndex - 1]?.value || '?';
-    document.getElementById('card2').textContent = cards[currentCardIndex]?.value || '?';
-    document.getElementById('card3').textContent = '?';
+function changeBet(amount) {
+  bet = amount;
+  document.getElementById("bet").innerText = bet;
 }
 
 function makeGuess(guess) {
-    if (credit < bet) {
-        alert('Not enough credit!');
-        return;
-    }
+  if (credit < bet) {
+    alert("Not enough credit!");
+    return;
+  }
+  credit -= bet;
+  document.getElementById("credit").innerText = credit;
 
-    const nextCard = cards[currentCardIndex + 1];
-    const previousCard = cards[currentCardIndex];
-    const result = evaluateGuess(guess, nextCard, previousCard);
+  const nextCard = currentCards[2];
+  document.getElementById("card3").classList.add("flipped");
+  setTimeout(() => {
+    document.getElementById("card3").innerText = nextCard.value;
+    document.getElementById("card3").classList.remove("flipped");
 
-    if (result) {
-        credit += bet;
-        point += bet * 2;
-        document.getElementById('message').textContent = 'Correct!';
-        document.getElementById('message').style.color = 'green';
+    const correct =
+      (guess === "high" && nextCard.value > currentCards[1].value) ||
+      (guess === "low" && nextCard.value < currentCards[1].value) ||
+      (guess === "red" && ["hearts", "diamonds"].includes(nextCard.suit)) ||
+      (guess === "black" && ["clubs", "spades"].includes(nextCard.suit));
+
+    if (correct) {
+      credit += bet * 2;
+      point += bet;
+      document.getElementById("result").innerText = "Correct!";
     } else {
-        credit -= bet;
-        document.getElementById('message').textContent = 'Wrong!';
-        document.getElementById('message').style.color = 'red';
+      document.getElementById("result").innerText = "Wrong!";
     }
 
-    currentCardIndex++;
-    updateCards();
-    document.getElementById('credit').textContent = credit;
-    document.getElementById('point').textContent = point;
-}
-
-function evaluateGuess(guess, nextCard, previousCard) {
-    switch (guess) {
-        case 'High':
-            return nextCard.value > previousCard.value;
-        case 'Low':
-            return nextCard.value < previousCard.value;
-        case 'Red':
-            return ['Hearts', 'Diamonds'].includes(nextCard.suit);
-        case 'Black':
-            return ['Clubs', 'Spades'].includes(nextCard.suit);
-        default:
-            return false;
-    }
-}
-
-function changeBet(newBet) {
-    bet = newBet;
-    document.getElementById('bet').textContent = bet;
+    document.getElementById("credit").innerText = credit;
+    document.getElementById("point").innerText = point;
+  }, 600);
 }
 
 function redeemRewards() {
-    if (point >= 100) {
-        point -= 100;
-        credit += 50;
-        document.getElementById('credit').textContent = credit;
-        document.getElementById('point').textContent = point;
-    } else {
-        alert('Not enough points to redeem rewards!');
-    }
+  if (point >= 100) {
+    point -= 100;
+    credit += 50;
+    document.getElementById("point").innerText = point;
+    document.getElementById("credit").innerText = credit;
+    alert("Redeemed 100 points for 50 credit!");
+  } else {
+    alert("Not enough points!");
+  }
 }
 
-initializeGame();
+function startGame() {
+  currentCards = [drawCard(), drawCard(), drawCard()];
+  document.getElementById("card1").innerText = currentCards[0].value;
+  document.getElementById("card2").innerText = currentCards[1].value;
+  document.getElementById("card3").innerText = "?";
+}
+
+function drawCard() {
+  return cards[Math.floor(Math.random() * cards.length)];
+}
+
+startGame();
