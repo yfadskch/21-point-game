@@ -35,72 +35,34 @@ function displayCards() {
     document.getElementById('bet').textContent = `Bet: ${bet}`;
 }
 
-// 修改投注金额
-function changeBet(amount) {
-    bet = amount;
-    document.getElementById('bet').textContent = `Bet: ${bet}`;
-}
-
-// 猜测逻辑
-function makeGuess(guess) {
-    if (credit < bet) {
-        document.getElementById('message').textContent = '❌ Not enough Credit!';
-        return;
-    }
-
-    credit -= bet;
-    const comparison = compareCards(currentCard, nextCard);
-
-    if (
-        (guess === 'high' && comparison < 0) ||
-        (guess === 'low' && comparison > 0) ||
-        (guess === 'red' && ['heart', 'diamond'].includes(nextCard.suit)) ||
-        (guess === 'black' && ['club', 'spade'].includes(nextCard.suit))
-    ) {
-        point += bet;
-        credit += bet * 2; // 猜对时增加 double betting
-        document.getElementById('message').textContent = '🎉 Correct!';
+// 奖励兑换逻辑
+function redeemRewards() {
+    const reward = prompt("Choose a reward:\n1. 200 Points: +200 Balance\n2. 1000 Points: Welcome Bonus 60%\n3. 3000 Points: Free 8.88\n\nEnter 1, 2, or 3:");
+    if (reward === '1') {
+        if (point >= 200) {
+            point -= 200;
+            credit += 200;
+            alert("200 Points redeemed for +200 Credit!");
+        } else {
+            alert("Not enough points to redeem this reward.");
+        }
+    } else if (reward === '2') {
+        if (point >= 1000) {
+            point -= 1000;
+            credit += Math.floor(credit * 0.6);
+            alert("1000 Points redeemed for Welcome Bonus 60%!");
+        } else {
+            alert("Not enough points to redeem this reward.");
+        }
+    } else if (reward === '3') {
+        if (point >= 3000) {
+            point -= 3000;
+            credit += 8.88;
+            alert("3000 Points redeemed for Free 8.88!");
+        } else {
+            alert("Not enough points to redeem this reward.");
+        }
     } else {
-        document.getElementById('message').textContent = '❌ Wrong!';
-    }
-
-    previousCard = currentCard;
-    currentCard = nextCard;
-    nextCard = generateCard();
-    displayCards();
-    resetCard();
-}
-
-// 比较卡牌大小
-function compareCards(card1, card2) {
-    const rank1 = ranks.indexOf(card1.rank);
-    const rank2 = ranks.indexOf(card2.rank);
-    return rank1 - rank2;
-}
-
-// 兑换积分
-function redeemPoints() {
-    if (point >= 100) {
-        point -= 100;
-        credit += 50;
-        alert('Redeemed 100 points for 50 credits!');
-    } else {
-        alert('Not enough points to redeem.');
+        alert("Invalid choice!");
     }
     displayCards();
-}
-
-// 翻转卡牌
-function flipCard() {
-    const card = document.getElementById('nextCard');
-    card.classList.add('flipped');
-}
-
-// 重置翻转状态
-function resetCard() {
-    const card = document.getElementById('nextCard');
-    card.classList.remove('flipped');
-}
-
-// 初始化显示
-displayCards();
