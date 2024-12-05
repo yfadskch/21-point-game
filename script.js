@@ -1,125 +1,77 @@
-/* 通用样式 */
-body {
-    font-family: 'Arial', sans-serif;
-    background: #f8f9fa;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    color: #333;
+const ranks = [2, 3, 4, 5, 6, 7, 8, 9, 10, 'J', 'Q', 'K', 'A'];
+const suits = ['club', 'diamond', 'heart', 'spade'];
+const suitSymbols = { club: '♣️', diamond: '♦️', heart: '♥️', spade: '♠️' };
+let currentCard = generateCard();
+let previousCard = { rank: '?', suit: '?' };
+let nextCard = generateCard();
+let score = 100;
+let credit = 200; // 初始 Credit
+let bet = 10;
+
+// 生成随机卡牌
+function generateCard() {
+    return {
+        rank: ranks[Math.floor(Math.random() * ranks.length)],
+        suit: suits[Math.floor(Math.random() * suits.length)],
+    };
 }
 
-.container {
-    text-align: center;
-    background: #ffffff;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    width: 90%;
-    max-width: 500px;
+function displayCards() {
+    document.getElementById('score').textContent = `Score: ${score}`;
+    document.getElementById('credit').textContent = `Credit: ${credit}`;
+    document.getElementById('bet').textContent = `Bet: ${bet}`;
 }
 
-header h1 {
-    font-size: 22px;
-    margin-bottom: 10px;
-    color: #007BFF;
+function changeBet(amount) {
+    bet = amount;
+    document.getElementById('bet').textContent = `Bet: ${bet}`;
 }
 
-.cards-container {
-    display: flex;
-    justify-content: space-between;
-    margin: 20px 0;
-    gap: 10px; /* 增加卡牌间的默认间距 */
-}
-
-/* 卡牌样式 */
-.card-display {
-    width: 100px;
-    height: 140px;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-    background: linear-gradient(135deg, #ffffff, #e8e8e8);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    font-size: 18px;
-    font-weight: bold;
-    border: 2px solid #007BFF;
-}
-
-/* 翻转动画样式 */
-.flip-card-inner {
-    width: 100%;
-    height: 100%;
-    transition: transform 0.6s ease-in-out;
-    transform-style: preserve-3d;
-    position: relative;
-}
-
-.flip-card.flipped .flip-card-inner {
-    transform: rotateY(180deg);
-}
-
-.flip-card-front,
-.flip-card-back {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
-    border-radius: 8px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 22px;
-    font-weight: bold;
-}
-
-.flip-card-back {
-    transform: rotateY(180deg);
-    background: #ffffff;
-}
-
-/* 按钮样式 */
-.bet-controls button,
-.guess-btn {
-    background: #ffc107;
-    color: #333;
-    border: none;
-    border-radius: 5px;
-    padding: 8px 12px;
-    margin: 5px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background 0.3s ease;
-}
-
-.bet-controls button:hover,
-.guess-btn:hover {
-    background: #e0a800;
-}
-
-.message {
-    margin: 20px 0;
-    font-size: 18px;
-    font-weight: bold;
-    color: #333;
-}
-
-/* 手机版本优化 */
-@media (max-width: 768px) {
-    .cards-container {
-        flex-direction: column; /* 卡牌垂直布局 */
-        align-items: center;
-        gap: 20px; /* 增加卡牌之间的垂直间距 */
+function makeGuess(guess) {
+    if (credit < bet) {
+        document.getElementById('message').textContent = '❌ Not enough Credit!';
+        return;
     }
 
-    .card-display {
-        width: 90px; /* 缩小卡牌宽度 */
-        height: 130px; /* 缩小卡牌高度 */
+    credit -= bet; // 扣除信用点数
+    const message = document.getElementById('message');
+
+    const comparison = compareCards(currentCard, nextCard);
+    if (
+        (guess === 'high' && comparison < 0) ||
+        (guess === 'low' && comparison > 0) ||
+        (guess === 'red' && ['heart', 'diamond'].includes(nextCard.suit)) ||
+        (guess === 'black' && ['club', 'spade'].includes(nextCard.suit))
+    ) {
+        score += bet;
+        credit += bet; // 猜对奖励 Credit
+        message.textContent = '🎉 Correct!';
+    } else {
+        message.textContent = '❌ Wrong!';
     }
+
+    previousCard = currentCard;
+    currentCard = nextCard;
+    nextCard = generateCard();
+    displayCards();
 }
+
+function compareCards(card1, card2) {
+    const rank1 = ranks.indexOf(card1.rank);
+    const rank2 = ranks.indexOf(card2.rank);
+    if (rank1 !== rank2) return rank1 - rank2;
+    return suits.indexOf(card1.suit) - suits.indexOf(card2.suit);
+}
+
+function redeemPoints() {
+    if (score >= 100) {
+        score -= 100;
+        credit += 50; // 每 100 积分兑换 50 Credit
+        alert('Redeemed 100 points for 50 credits!');
+    } else {
+        alert('Not enough points to redeem.');
+    }
+    displayCards();
+}
+
+displayCards();

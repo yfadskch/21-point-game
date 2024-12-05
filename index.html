@@ -12,6 +12,12 @@
             <h1>Card Guessing Game</h1>
         </header>
         <main>
+            <div class="game-info">
+                <p id="score">Score: 100</p>
+                <p id="credit">Credit: 200</p>
+                <p id="bet">Bet: 10</p>
+            </div>
+
             <div class="cards-container">
                 <div class="card-display" id="previousCard">
                     <div class="card-number">?</div>
@@ -32,12 +38,6 @@
                 </div>
             </div>
 
-            <!-- 显示积分和投注 -->
-            <div class="game-info">
-                <p id="score">Score: 100</p>
-                <p id="bet">Bet: 10</p>
-            </div>
-
             <!-- 筹码选择 -->
             <div class="bet-controls">
                 <button onclick="changeBet(10)">10</button>
@@ -53,12 +53,14 @@
                 <button class="guess-btn" onclick="makeGuess('red')">Red</button>
                 <button class="guess-btn" onclick="makeGuess('black')">Black</button>
             </div>
+
+            <!-- 提示消息 -->
             <div id="message" class="message"></div>
         </main>
 
         <!-- 积分兑换 -->
         <footer>
-            <button onclick="redeemPoints()">Redeem 100 Points for 10 Chips</button>
+            <button id="redeemButton" onclick="redeemPoints()">Redeem 100 Points for 50 Credit</button>
             <p>© 2024 Card Game. All Rights Reserved.</p>
         </footer>
     </div>
