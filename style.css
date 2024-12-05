@@ -1,93 +1,106 @@
 body {
-  font-family: Arial, sans-serif;
-  text-align: center;
-  background-color: #f8f8f8;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #f7f7f7;
+    color: #333;
 }
 
 .container {
-  max-width: 400px;
-  margin: 0 auto;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.card-container {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  margin: 20px 0;
+h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.cards {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
 }
 
 .card {
-  width: 60px;
-  height: 90px;
-  border: 2px solid blue;
-  border-radius: 5px;
-  font-size: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: white;
-  color: black;
+    width: 60px;
+    height: 100px;
+    margin: 0 10px;
+    font-size: 2rem;
+    font-weight: bold;
+    border: 2px solid #007bff;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
 }
 
-.status p {
-  font-size: 18px;
-  margin: 10px 0;
+.stats p {
+    margin: 10px 0;
+    font-size: 1.2rem;
 }
 
-.bet-buttons, .guess-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin: 10px 0;
+.bet-buttons {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
 }
 
 .chip {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  border: none;
-  font-size: 18px;
-  font-weight: bold;
-  color: white;
-  cursor: pointer;
+    width: 50px;
+    height: 50px;
+    margin: 0 10px;
+    border: none;
+    border-radius: 50%;
+    color: white;
+    font-size: 1.1rem;
+    font-weight: bold;
+    background: #007bff;
+    cursor: pointer;
 }
 
-.chip.blue {
-  background-color: blue;
+.chip:nth-child(2) {
+    background: #28a745;
 }
 
-.chip.green {
-  background-color: green;
+.chip:nth-child(3) {
+    background: #ffc107;
 }
 
-.chip.yellow {
-  background-color: yellow;
-  color: black;
+.guess-buttons {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
 }
 
-.guess-button {
-  background-color: orange;
-  border: none;
-  padding: 10px 20px;
-  font-size: 16px;
-  color: white;
-  cursor: pointer;
-  border-radius: 5px;
+.guess-btn {
+    margin: 0 10px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    background: #ffc107;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
-.redeem-button {
-  background-color: red;
-  border: none;
-  color: white;
-  padding: 10px 20px;
-  font-size: 16px;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: 10px;
+#redeem-btn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    color: white;
+    background: #dc3545;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
-.message {
-  font-size: 18px;
-  font-weight: bold;
-  color: red;
+#result {
+    font-size: 1.5rem;
+    margin-top: 20px;
+    font-weight: bold;
 }
