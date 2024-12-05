@@ -1,89 +1,125 @@
-const ranks = [2, 3, 4, 5, 6, 7, 8, 9, 10, 'J', 'Q', 'K', 'A'];
-const suits = ['club', 'diamond', 'heart', 'spade'];
-const suitSymbols = { club: '♣️', diamond: '♦️', heart: '♥️', spade: '♠️' };
-let currentCard = generateCard();
-let previousCard = { rank: '?', suit: '?' };
-let nextCard = generateCard();
-let score = 100;
-let bet = 10;
-
-// 生成随机卡牌
-function generateCard() {
-    return {
-        rank: ranks[Math.floor(Math.random() * ranks.length)],
-        suit: suits[Math.floor(Math.random() * suits.length)],
-    };
+/* 通用样式 */
+body {
+    font-family: 'Arial', sans-serif;
+    background: #f8f9fa;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: #333;
 }
 
-function displayCards() {
-    const prevCard = document.getElementById('previousCard');
-    prevCard.querySelector('.card-number').textContent = previousCard.rank;
-    prevCard.querySelector('.card-suit').textContent = suitSymbols[previousCard.suit] || '?';
-
-    const currCard = document.getElementById('currentCard');
-    currCard.querySelector('.card-number').textContent = currentCard.rank;
-    currCard.querySelector('.card-suit').textContent = suitSymbols[currentCard.suit];
-
-    const nextCardBack = document.querySelector('#nextCard .flip-card-back');
-    nextCardBack.querySelector('.card-number').textContent = nextCard.rank;
-    nextCardBack.querySelector('.card-suit').textContent = suitSymbols[nextCard.suit];
+.container {
+    text-align: center;
+    background: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 90%;
+    max-width: 500px;
 }
 
-function flipCard() {
-    const card = document.getElementById('nextCard');
-    card.classList.add('flipped');
+header h1 {
+    font-size: 22px;
+    margin-bottom: 10px;
+    color: #007BFF;
 }
 
-function resetCard() {
-    const card = document.getElementById('nextCard');
-    card.classList.remove('flipped');
+.cards-container {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+    gap: 10px; /* 增加卡牌间的默认间距 */
 }
 
-function changeBet(amount) {
-    bet = amount;
-    document.getElementById('bet').textContent = `Bet: ${bet}`;
+/* 卡牌样式 */
+.card-display {
+    width: 100px;
+    height: 140px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(135deg, #ffffff, #e8e8e8);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    border: 2px solid #007BFF;
 }
 
-function makeGuess(guess) {
-    flipCard(); // 翻转卡牌
-    setTimeout(() => {
-        const message = document.getElementById('message');
-        const comparison = compareCards(currentCard, nextCard);
-        if (
-            (guess === 'high' && comparison < 0) ||
-            (guess === 'low' && comparison > 0) ||
-            (guess === 'red' && ['heart', 'diamond'].includes(nextCard.suit)) ||
-            (guess === 'black' && ['club', 'spade'].includes(nextCard.suit))
-        ) {
-            score += bet;
-            message.textContent = '🎉 Correct!';
-        } else {
-            score -= bet;
-            message.textContent = '❌ Wrong!';
-        }
-        previousCard = currentCard;
-        currentCard = nextCard;
-        nextCard = generateCard();
-        displayCards();
-        resetCard();
-    }, 800);
+/* 翻转动画样式 */
+.flip-card-inner {
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s ease-in-out;
+    transform-style: preserve-3d;
+    position: relative;
 }
 
-function compareCards(card1, card2) {
-    const rank1 = ranks.indexOf(card1.rank);
-    const rank2 = ranks.indexOf(card2.rank);
-    if (rank1 !== rank2) return rank1 - rank2;
-    return suits.indexOf(card1.suit) - suits.indexOf(card2.suit);
+.flip-card.flipped .flip-card-inner {
+    transform: rotateY(180deg);
 }
 
-function redeemPoints() {
-    if (score >= 100) {
-        score -= 100;
-        alert('Redeemed 100 points for 10 chips!');
-    } else {
-        alert('Not enough points to redeem.');
+.flip-card-front,
+.flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.flip-card-back {
+    transform: rotateY(180deg);
+    background: #ffffff;
+}
+
+/* 按钮样式 */
+.bet-controls button,
+.guess-btn {
+    background: #ffc107;
+    color: #333;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 12px;
+    margin: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.bet-controls button:hover,
+.guess-btn:hover {
+    background: #e0a800;
+}
+
+.message {
+    margin: 20px 0;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* 手机版本优化 */
+@media (max-width: 768px) {
+    .cards-container {
+        flex-direction: column; /* 卡牌垂直布局 */
+        align-items: center;
+        gap: 20px; /* 增加卡牌之间的垂直间距 */
     }
-    document.getElementById('score').textContent = `Score: ${score}`;
-}
 
-displayCards();
+    .card-display {
+        width: 90px; /* 缩小卡牌宽度 */
+        height: 130px; /* 缩小卡牌高度 */
+    }
+}
