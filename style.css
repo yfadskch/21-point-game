@@ -1,19 +1,26 @@
 body {
   font-family: Arial, sans-serif;
   text-align: center;
-  background-color: #f8f9fa;
+  background-color: #f9f9f9;
+  margin: 0;
+  padding: 0;
 }
 
 .game-container {
-  margin: 20px auto;
-  max-width: 400px;
+  max-width: 500px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
 }
 
 h1 {
-  color: #333;
+  font-size: 24px;
+  margin-bottom: 20px;
 }
 
-.card-display {
+.cards {
   display: flex;
   justify-content: center;
   margin-bottom: 20px;
@@ -23,35 +30,36 @@ h1 {
   width: 60px;
   height: 90px;
   margin: 0 10px;
+  border: 2px solid #007bff;
+  border-radius: 5px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 24px;
   font-weight: bold;
-  border: 2px solid #007bff;
-  border-radius: 8px;
-  background-color: white;
+  color: #007bff;
+  background-color: #f9f9f9;
 }
 
-.game-info {
-  margin-bottom: 20px;
+.info {
   font-size: 18px;
+  margin-bottom: 20px;
 }
 
-.betting-buttons, .guess-buttons {
-  margin: 15px 0;
+.betting {
+  margin-bottom: 20px;
 }
 
 .chip {
-  width: 60px;
-  height: 60px;
-  font-size: 16px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: none;
+  font-size: 18px;
   font-weight: bold;
   color: white;
-  border: none;
-  border-radius: 50%;
-  cursor: pointer;
   margin: 0 10px;
+  cursor: pointer;
 }
 
 .blue {
@@ -66,29 +74,32 @@ h1 {
   background-color: #ffc107;
 }
 
-.guess-btn {
+.guessing {
+  margin-bottom: 20px;
+}
+
+.guess {
+  background-color: #ffc107;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
   margin: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.redeem-button {
+  background-color: #fd7e14;
+  border: none;
+  border-radius: 5px;
   padding: 10px 20px;
   font-size: 16px;
-  border: none;
-  background-color: #ffc107;
   color: white;
-  cursor: pointer;
-  border-radius: 5px;
-}
-
-.redeem-btn {
-  margin-top: 20px;
-  padding: 10px 30px;
-  background-color: #ff5733;
-  color: white;
-  border: none;
-  border-radius: 5px;
   cursor: pointer;
 }
 
-#result-message {
-  font-size: 18px;
+.message {
   margin-top: 20px;
-  color: #ff5733;
+  font-size: 16px;
+  font-weight: bold;
 }
