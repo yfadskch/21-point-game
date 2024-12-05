@@ -8,6 +8,7 @@ let point = 100;
 let credit = 200;
 let bet = 10;
 
+// 随机生成卡牌
 function generateCard() {
     return {
         rank: ranks[Math.floor(Math.random() * ranks.length)],
@@ -15,6 +16,7 @@ function generateCard() {
     };
 }
 
+// 显示卡牌
 function displayCards() {
     document.getElementById('previousCard').querySelector('.card-number').textContent = previousCard.rank;
     document.getElementById('previousCard').querySelector('.card-suit').textContent = suitSymbols[previousCard.suit] || '?';
@@ -33,6 +35,13 @@ function displayCards() {
     document.getElementById('bet').textContent = `Bet: ${bet}`;
 }
 
+// 修改投注金额
+function changeBet(amount) {
+    bet = amount;
+    document.getElementById('bet').textContent = `Bet: ${bet}`;
+}
+
+// 猜测逻辑
 function makeGuess(guess) {
     if (credit < bet) {
         document.getElementById('message').textContent = '❌ Not enough Credit!';
@@ -59,6 +68,39 @@ function makeGuess(guess) {
     currentCard = nextCard;
     nextCard = generateCard();
     displayCards();
+    resetCard();
 }
 
+// 比较卡牌大小
+function compareCards(card1, card2) {
+    const rank1 = ranks.indexOf(card1.rank);
+    const rank2 = ranks.indexOf(card2.rank);
+    return rank1 - rank2;
+}
+
+// 兑换积分
+function redeemPoints() {
+    if (point >= 100) {
+        point -= 100;
+        credit += 50;
+        alert('Redeemed 100 points for 50 credits!');
+    } else {
+        alert('Not enough points to redeem.');
+    }
+    displayCards();
+}
+
+// 翻转卡牌
+function flipCard() {
+    const card = document.getElementById('nextCard');
+    card.classList.add('flipped');
+}
+
+// 重置翻转状态
+function resetCard() {
+    const card = document.getElementById('nextCard');
+    card.classList.remove('flipped');
+}
+
+// 初始化显示
 displayCards();
