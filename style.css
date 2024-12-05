@@ -1,73 +1,124 @@
 body {
-  font-family: Arial, sans-serif;
-  text-align: center;
-  background-color: #f9f9f9;
-  margin: 0;
-  padding: 0;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
 }
 
 .game-container {
-  max-width: 600px;
-  margin: 20px auto;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  background-color: white;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+h1 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
 }
 
 .cards {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
 }
 
 .card {
-  width: 80px;
-  height: 120px;
-  margin: 0 10px;
-  background-color: #fff;
-  border: 2px solid #00f;
-  border-radius: 10px;
-  font-size: 30px;
-  line-height: 120px;
-  text-align: center;
-  color: #000;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    width: 80px;
+    height: 120px;
+    background-color: white;
+    border: 2px solid #007bff;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2em;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.stats {
-  margin-bottom: 20px;
+.game-info {
+    font-size: 1.2em;
+    margin-bottom: 20px;
 }
 
-.betting, .guess {
-  margin-bottom: 20px;
+.bet-options {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
 }
 
-.bet-btn, .guess-btn, .redeem-btn {
-  padding: 10px 20px;
-  margin: 5px;
-  border: none;
-  border-radius: 50px;
-  cursor: pointer;
-  font-size: 16px;
-  color: white;
+.chip {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    font-size: 1em;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
-.bet-btn {
-  background-color: #007bff;
+.chip.blue {
+    background-color: #007bff;
 }
 
-.guess-btn {
-  background-color: #ffc107;
+.chip.green {
+    background-color: #28a745;
 }
 
-.redeem-btn {
-  background-color: #ff5722;
+.chip.yellow {
+    background-color: #ffc107;
 }
 
-#message {
-  margin-top: 20px;
-  font-size: 18px;
-  color: red;
+.chip:hover {
+    transform: scale(1.1);
+    transition: transform 0.2s;
+}
+
+.guess-options {
+    margin-bottom: 20px;
+}
+
+.guess-button {
+    font-size: 1em;
+    padding: 10px 20px;
+    margin: 5px;
+    border: none;
+    background-color: #ffc107;
+    color: black;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.guess-button:hover {
+    background-color: #e0a800;
+    transition: background-color 0.3s;
+}
+
+.redeem-button {
+    padding: 10px 20px;
+    font-size: 1em;
+    background-color: #ff5722;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.redeem-button:hover {
+    background-color: #e64a19;
+    transition: background-color 0.3s;
+}
+
+.message {
+    margin-top: 20px;
+    font-size: 1.2em;
+    color: red;
 }
