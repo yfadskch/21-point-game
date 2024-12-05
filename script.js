@@ -111,10 +111,3 @@ function redeemPoints() {
         score -= 100; // 扣除积分
         alert('Redeemed 100 points for 10 chips!');
     } else {
-        alert('Not enough points to redeem.');
-    }
-    document.getElementById('score').textContent = `Score: ${score}`;
-}
-
-// 初始化显示
-displayCards();
