@@ -22,14 +22,12 @@ body {
     max-width: 500px;
 }
 
-/* 标题样式 */
 header h1 {
     font-size: 22px;
     margin-bottom: 10px;
     color: #007BFF;
 }
 
-/* 卡牌容器 */
 .cards-container {
     display: flex;
     justify-content: space-around;
@@ -38,40 +36,48 @@ header h1 {
 
 /* 卡牌样式 */
 .card-display {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
     width: 80px;
     height: 120px;
-    font-size: 18px;
-    font-weight: bold;
+    position: relative;
+    perspective: 1000px;
+}
+
+/* 翻转动画样式 */
+.flip-card-inner {
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+}
+
+.flip-card.flipped .flip-card-inner {
+    transform: rotateY(180deg);
+}
+
+.flip-card-front, .flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border: 2px solid #007BFF;
     border-radius: 10px;
     background: #f0f0f0;
     color: #555;
-    padding: 5px;
-    box-sizing: border-box;
-}
-
-/* 卡牌内容样式 */
-.card-display .card-number {
     font-size: 24px;
-    margin-bottom: 3px;
 }
 
-.card-display .card-suit {
-    font-size: 16px;
+.flip-card-back {
+    transform: rotateY(180deg);
 }
 
-/* 积分和投注显示 */
 .game-info {
     margin: 10px 0;
     font-size: 18px;
-    color: #333;
 }
 
-/* 筹码选择按钮 */
 .bet-controls button {
     background: #ffc107;
     color: #fff;
@@ -88,7 +94,6 @@ header h1 {
     background: #e0a800;
 }
 
-/* 猜测按钮样式 */
 .guess-btn {
     padding: 8px 12px;
     font-size: 14px;
@@ -100,7 +105,6 @@ header h1 {
     background-color: #0056b3;
 }
 
-/* 消息样式 */
 .message {
     margin: 20px 0;
     font-size: 18px;
