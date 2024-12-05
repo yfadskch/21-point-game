@@ -4,7 +4,7 @@ const suitSymbols = { club: '♣️', diamond: '♦️', heart: '♥️', spade:
 let currentCard = generateCard();
 let previousCard = { rank: '?', suit: '?' };
 let nextCard = generateCard();
-let score = 100;
+let point = 100;
 let credit = 200;
 let bet = 10;
 
@@ -26,23 +26,10 @@ function displayCards() {
     nextCardBack.querySelector('.card-number').textContent = nextCard.rank;
     nextCardBack.querySelector('.card-suit').textContent = suitSymbols[nextCard.suit];
 
-    document.getElementById('score').textContent = `Score: ${score}`;
+    document.querySelector('#nextCard .flip-card-front').textContent = '?';
+
+    document.getElementById('point').textContent = `Point: ${point}`;
     document.getElementById('credit').textContent = `Credit: ${credit}`;
-    document.getElementById('bet').textContent = `Bet: ${bet}`;
-}
-
-function flipCard() {
-    const card = document.getElementById('nextCard');
-    card.classList.add('flipped');
-}
-
-function resetCard() {
-    const card = document.getElementById('nextCard');
-    card.classList.remove('flipped');
-}
-
-function changeBet(amount) {
-    bet = amount;
     document.getElementById('bet').textContent = `Bet: ${bet}`;
 }
 
@@ -61,7 +48,7 @@ function makeGuess(guess) {
         (guess === 'red' && ['heart', 'diamond'].includes(nextCard.suit)) ||
         (guess === 'black' && ['club', 'spade'].includes(nextCard.suit))
     ) {
-        score += bet;
+        point += bet;
         credit += bet;
         document.getElementById('message').textContent = '🎉 Correct!';
     } else {
@@ -71,24 +58,6 @@ function makeGuess(guess) {
     previousCard = currentCard;
     currentCard = nextCard;
     nextCard = generateCard();
-    displayCards();
-    resetCard();
-}
-
-function compareCards(card1, card2) {
-    const rank1 = ranks.indexOf(card1.rank);
-    const rank2 = ranks.indexOf(card2.rank);
-    return rank1 - rank2;
-}
-
-function redeemPoints() {
-    if (score >= 100) {
-        score -= 100;
-        credit += 50;
-        alert('Redeemed 100 points for 50 credits!');
-    } else {
-        alert('Not enough points to redeem.');
-    }
     displayCards();
 }
 
