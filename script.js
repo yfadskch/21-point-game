@@ -66,3 +66,45 @@ function redeemRewards() {
         alert("Invalid choice!");
     }
     displayCards();
+}
+
+// 改变投注额
+function changeBet(newBet) {
+    bet = newBet;
+    document.getElementById('bet').textContent = `Bet: ${bet}`;
+}
+
+// 游戏逻辑
+function makeGuess(guess) {
+    if (credit < bet) {
+        alert('Not enough credit!');
+        return;
+    }
+    credit -= bet;
+
+    const cardOrder = ranks.indexOf(nextCard.rank) - ranks.indexOf(currentCard.rank);
+    let correctGuess = false;
+
+    if (guess === 'high' && cardOrder > 0) correctGuess = true;
+    if (guess === 'low' && cardOrder < 0) correctGuess = true;
+    if (guess === 'red' && ['heart', 'diamond'].includes(nextCard.suit)) correctGuess = true;
+    if (guess === 'black' && ['club', 'spade'].includes(nextCard.suit)) correctGuess = true;
+
+    if (correctGuess) {
+        credit += bet * 2;
+        point += 50;
+        document.getElementById('message').textContent = "🎉 Correct!";
+    } else {
+        document.getElementById('message').textContent = "❌ Wrong!";
+    }
+
+    previousCard = currentCard;
+    currentCard = nextCard;
+    nextCard = generateCard();
+
+    document.querySelector('#nextCard .flip-card-inner').classList.toggle('flipped');
+    displayCards();
+}
+
+// 初始化
+displayCards();
