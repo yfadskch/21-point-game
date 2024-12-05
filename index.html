@@ -9,28 +9,28 @@
 <body>
   <div class="container">
     <h1>Card Guessing Game</h1>
-    <div class="cards">
-      <div class="card" id="card1">?</div>
-      <div class="card" id="card2">?</div>
-      <div class="card" id="card3">?</div>
+    <div class="card-container">
+      <div id="card1" class="card">?</div>
+      <div id="card2" class="card">?</div>
+      <div id="card3" class="card">?</div>
     </div>
-    <div class="info">
+    <div class="status">
       <p>Credit: <span id="credit">200</span> Bet: <span id="bet">10</span> Point: <span id="point">100</span></p>
     </div>
-    <div class="bets">
-      <button class="chip blue" onclick="changeBet(10)">10</button>
-      <button class="chip green" onclick="changeBet(20)">20</button>
-      <button class="chip yellow" onclick="changeBet(50)">50</button>
+    <div class="bet-buttons">
+      <button onclick="changeBet(10)" class="chip blue">10</button>
+      <button onclick="changeBet(20)" class="chip green">20</button>
+      <button onclick="changeBet(50)" class="chip yellow">50</button>
     </div>
-    <div class="actions">
-      <p>Make a Guess:</p>
-      <button class="guess" onclick="makeGuess('high')">High</button>
-      <button class="guess" onclick="makeGuess('low')">Low</button>
-      <button class="guess" onclick="makeGuess('red')">Red</button>
-      <button class="guess" onclick="makeGuess('black')">Black</button>
+    <p>Make a Guess:</p>
+    <div class="guess-buttons">
+      <button onclick="makeGuess('high')" class="guess-button">High</button>
+      <button onclick="makeGuess('low')" class="guess-button">Low</button>
+      <button onclick="makeGuess('red')" class="guess-button">Red</button>
+      <button onclick="makeGuess('black')" class="guess-button">Black</button>
     </div>
-    <button class="redeem" onclick="redeemRewards()">Redeem Rewards</button>
-    <p id="result"></p>
+    <button onclick="redeemRewards()" class="redeem-button">Redeem Rewards</button>
+    <p id="message" class="message"></p>
   </div>
   <script src="script.js"></script>
 </body>

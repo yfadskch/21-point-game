@@ -1,111 +1,93 @@
 body {
   font-family: Arial, sans-serif;
   text-align: center;
-  background-color: #f5f5f5;
-  margin: 0;
-  padding: 0;
+  background-color: #f8f8f8;
 }
 
 .container {
-  max-width: 600px;
-  margin: 20px auto;
-  padding: 10px;
+  max-width: 400px;
+  margin: 0 auto;
 }
 
-h1 {
-  font-size: 2em;
-  color: #333;
-}
-
-.cards {
+.card-container {
   display: flex;
   justify-content: center;
+  gap: 15px;
   margin: 20px 0;
 }
 
 .card {
-  width: 80px;
-  height: 120px;
-  border: 2px solid #007bff;
-  border-radius: 8px;
-  margin: 0 10px;
+  width: 60px;
+  height: 90px;
+  border: 2px solid blue;
+  border-radius: 5px;
+  font-size: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.5em;
   background-color: white;
-  color: #333;
-  transition: transform 0.6s;
+  color: black;
 }
 
-.card.flip {
-  transform: rotateY(180deg);
+.status p {
+  font-size: 18px;
+  margin: 10px 0;
 }
 
-.info {
-  font-size: 1.2em;
-  margin-bottom: 20px;
-}
-
-.bets {
-  margin-bottom: 20px;
+.bet-buttons, .guess-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 10px 0;
 }
 
 .chip {
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
   border: none;
-  font-size: 1em;
+  font-size: 18px;
   font-weight: bold;
-  margin: 0 5px;
   color: white;
   cursor: pointer;
 }
 
-.blue {
-  background-color: #007bff;
+.chip.blue {
+  background-color: blue;
 }
 
-.green {
-  background-color: #28a745;
+.chip.green {
+  background-color: green;
 }
 
-.yellow {
-  background-color: #ffc107;
+.chip.yellow {
+  background-color: yellow;
+  color: black;
 }
 
-.actions {
-  margin-bottom: 20px;
-}
-
-.guess {
-  width: 80px;
-  height: 40px;
-  margin: 5px;
-  font-size: 1em;
-  font-weight: bold;
-  color: white;
-  background-color: #ffc107;
+.guess-button {
+  background-color: orange;
   border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.redeem-button {
+  background-color: red;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
   border-radius: 5px;
   cursor: pointer;
-}
-
-.redeem {
-  width: 200px;
-  height: 40px;
-  margin: 10px 0;
-  font-size: 1em;
-  font-weight: bold;
-  color: white;
-  background-color: #ff5722;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-#result {
-  font-size: 1.2em;
   margin-top: 10px;
+}
+
+.message {
+  font-size: 18px;
+  font-weight: bold;
+  color: red;
 }
