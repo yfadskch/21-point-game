@@ -22,6 +22,21 @@
                     <div class="card-suit">?</div>
                 </div>
             </div>
+
+            <!-- 显示积分和投注 -->
+            <div class="game-info">
+                <p id="score">Score: 100</p>
+                <p id="bet">Bet: 10</p>
+            </div>
+
+            <!-- 筹码选择 -->
+            <div class="bet-controls">
+                <button onclick="changeBet(10)">10</button>
+                <button onclick="changeBet(20)">20</button>
+                <button onclick="changeBet(50)">50</button>
+            </div>
+
+            <!-- 猜测按钮 -->
             <div class="controls">
                 <h2>Make a Guess:</h2>
                 <button class="guess-btn" onclick="makeGuess('high')">High</button>
@@ -32,7 +47,10 @@
             <div id="message" class="message"></div>
             <button class="next-card-btn" onclick="nextCard()">Next Card</button>
         </main>
+
+        <!-- 积分兑换 -->
         <footer>
+            <button onclick="redeemPoints()">Redeem 100 Points for 10 Chips</button>
             <p>© 2024 Card Game. All Rights Reserved.</p>
         </footer>
     </div>
