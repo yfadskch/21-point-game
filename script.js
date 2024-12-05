@@ -1,81 +1,94 @@
-let credit = 200;
-let bet = 10;
-let point = 100;
-let card1Value, card2Value, card3Value;
-
-function generateCardValue() {
-  return Math.floor(Math.random() * 13) + 1;
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background-color: #f8f9fa;
 }
 
-function generateCardColor() {
-  return Math.random() > 0.5 ? "Red" : "Black";
+.game-container {
+  margin: 20px auto;
+  max-width: 400px;
 }
 
-function changeBet(amount) {
-  bet = amount;
-  document.getElementById("bet").textContent = bet;
+h1 {
+  color: #333;
 }
 
-function makeGuess(guess) {
-  if (credit < bet) {
-    alert("Not enough credit!");
-    return;
-  }
-
-  // Deduct the bet from credit
-  credit -= bet;
-
-  // Generate card values
-  card1Value = generateCardValue();
-  card2Value = generateCardValue();
-  card3Value = generateCardValue();
-
-  // Display the first two cards
-  document.getElementById("card1").textContent = card1Value;
-  document.getElementById("card2").textContent = card2Value;
-
-  // Default card 3 to question mark
-  document.getElementById("card3").textContent = "?";
-
-  let result;
-  if (guess === "High") {
-    result = card3Value > card2Value;
-  } else if (guess === "Low") {
-    result = card3Value < card2Value;
-  } else if (guess === "Red") {
-    result = generateCardColor() === "Red";
-  } else {
-    result = generateCardColor() === "Black";
-  }
-
-  if (result) {
-    credit += bet * 2; // Reward
-    point += bet;
-    document.getElementById("message").textContent = "Correct!";
-    document.getElementById("message").style.color = "green";
-  } else {
-    document.getElementById("message").textContent = "Wrong!";
-    document.getElementById("message").style.color = "red";
-  }
-
-  document.getElementById("card3").textContent = card3Value;
-  updateStats();
+.card-display {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
 }
 
-function updateStats() {
-  document.getElementById("credit").textContent = credit;
-  document.getElementById("point").textContent = point;
+.card {
+  width: 60px;
+  height: 90px;
+  margin: 0 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: bold;
+  border: 2px solid #007bff;
+  border-radius: 8px;
+  background-color: white;
 }
 
-function redeemRewards() {
-  if (point >= 100) {
-    point -= 100;
-    credit += 50;
-    updateStats();
-    document.getElementById("message").textContent = "Redeemed!";
-    document.getElementById("message").style.color = "green";
-  } else {
-    document.getElementById("message").textContent = "Not enough points to redeem!";
-    document.getElementById("message").style.color = "red";
-  }
+.game-info {
+  margin-bottom: 20px;
+  font-size: 18px;
+}
+
+.betting-buttons, .guess-buttons {
+  margin: 15px 0;
+}
+
+.chip {
+  width: 60px;
+  height: 60px;
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  margin: 0 10px;
+}
+
+.blue {
+  background-color: #007bff;
+}
+
+.green {
+  background-color: #28a745;
+}
+
+.yellow {
+  background-color: #ffc107;
+}
+
+.guess-btn {
+  margin: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  background-color: #ffc107;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.redeem-btn {
+  margin-top: 20px;
+  padding: 10px 30px;
+  background-color: #ff5733;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#result-message {
+  font-size: 18px;
+  margin-top: 20px;
+  color: #ff5733;
 }
