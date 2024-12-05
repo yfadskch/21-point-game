@@ -1,4 +1,3 @@
-/* 通用样式 */
 body {
     font-family: 'Arial', sans-serif;
     background: #f8f9fa;
@@ -35,7 +34,6 @@ header h1 {
     gap: 10px;
 }
 
-/* 卡牌样式 */
 .card-display {
     width: 80px;
     height: 120px;
@@ -52,7 +50,6 @@ header h1 {
     border: 2px solid #007BFF;
 }
 
-/* 翻转动画样式 */
 .flip-card-inner {
     width: 100%;
     height: 100%;
@@ -84,7 +81,6 @@ header h1 {
     background: #ffffff;
 }
 
-/* 按钮样式 */
 .bet-controls button,
 .guess-btn {
     background: #ffc107;
