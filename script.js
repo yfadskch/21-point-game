@@ -97,17 +97,16 @@ function makeGuess(guess) {
     document.getElementById('score').textContent = `Score: ${score}`;
 }
 
-// 下一张卡牌
-function nextCard() {
-    previousCard = currentCard;
-    currentCard = generateRandomCard();
-    displayCards();
-    document.getElementById('message').textContent = ''; // 清空消息
-}
-
 // 积分兑换逻辑
 function redeemPoints() {
     if (score >= 100) {
         score -= 100; // 扣除积分
         alert('Redeemed 100 points for 10 chips!');
     } else {
+        alert('Not enough points to redeem.');
+    }
+    document.getElementById('score').textContent = `Score: ${score}`;
+}
+
+// 初始化显示
+displayCards();

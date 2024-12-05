@@ -89,7 +89,7 @@ header h1 {
 }
 
 /* 猜测按钮样式 */
-.guess-btn, .next-card-btn {
+.guess-btn {
     padding: 8px 12px;
     font-size: 14px;
     border-radius: 5px;
@@ -98,15 +98,6 @@ header h1 {
 
 .guess-btn:hover {
     background-color: #0056b3;
-}
-
-.next-card-btn {
-    background-color: #28a745;
-    color: #fff;
-}
-
-.next-card-btn:hover {
-    background-color: #218838;
 }
 
 /* 消息样式 */
