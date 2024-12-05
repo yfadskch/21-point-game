@@ -1,83 +1,93 @@
-const cards = [
-  { value: "A", suit: "hearts" },
-  { value: "2", suit: "diamonds" },
-  { value: "3", suit: "clubs" },
-  { value: "4", suit: "spades" },
-  { value: "5", suit: "hearts" },
-  { value: "6", suit: "diamonds" },
-  { value: "7", suit: "clubs" },
-  { value: "8", suit: "spades" },
-  { value: "9", suit: "hearts" },
-  { value: "10", suit: "diamonds" },
-  { value: "J", suit: "clubs" },
-  { value: "Q", suit: "spades" },
-  { value: "K", suit: "hearts" },
-];
-
 let credit = 200;
-let point = 100;
 let bet = 10;
-let currentCards = [];
+let point = 100;
+let cards = [];
+const suits = ['hearts', 'diamonds', 'clubs', 'spades'];
 
-function changeBet(amount) {
-  bet = amount;
-  document.getElementById("bet").innerText = bet;
+function initializeGame() {
+  cards = [];
+  document.getElementById('card1').textContent = '?';
+  document.getElementById('card2').textContent = '?';
+  document.getElementById('card3').textContent = '?';
+  document.getElementById('result').textContent = '';
+}
+
+function generateCard() {
+  const value = Math.floor(Math.random() * 13) + 1;
+  const suit = suits[Math.floor(Math.random() * suits.length)];
+  return { value, suit };
+}
+
+function startGame() {
+  const firstCard = generateCard();
+  const secondCard = generateCard();
+  cards = [firstCard, secondCard];
+  document.getElementById('card1').textContent = firstCard.value;
+  document.getElementById('card2').textContent = secondCard.value;
 }
 
 function makeGuess(guess) {
   if (credit < bet) {
-    alert("Not enough credit!");
+    alert('Not enough credit!');
     return;
   }
   credit -= bet;
-  document.getElementById("credit").innerText = credit;
 
-  const nextCard = currentCards[2];
-  document.getElementById("card3").classList.add("flipped");
-  setTimeout(() => {
-    document.getElementById("card3").innerText = nextCard.value;
-    document.getElementById("card3").classList.remove("flipped");
+  const thirdCard = generateCard();
+  document.getElementById('card3').textContent = thirdCard.value;
+  const result = evaluateGuess(cards[1], thirdCard, guess);
 
-    const correct =
-      (guess === "high" && nextCard.value > currentCards[1].value) ||
-      (guess === "low" && nextCard.value < currentCards[1].value) ||
-      (guess === "red" && ["hearts", "diamonds"].includes(nextCard.suit)) ||
-      (guess === "black" && ["clubs", "spades"].includes(nextCard.suit));
+  if (result) {
+    point += bet * 2;
+    credit += bet * 2;
+    document.getElementById('result').textContent = 'Correct!';
+    document.getElementById('result').style.color = 'green';
+  } else {
+    document.getElementById('result').textContent = 'Wrong!';
+    document.getElementById('result').style.color = 'red';
+  }
 
-    if (correct) {
-      credit += bet * 2;
-      point += bet;
-      document.getElementById("result").innerText = "Correct!";
-    } else {
-      document.getElementById("result").innerText = "Wrong!";
-    }
+  updateDisplay();
+  initializeGame();
+}
 
-    document.getElementById("credit").innerText = credit;
-    document.getElementById("point").innerText = point;
-  }, 600);
+function evaluateGuess(previousCard, currentCard, guess) {
+  if (guess === 'high') {
+    return currentCard.value > previousCard.value;
+  }
+  if (guess === 'low') {
+    return currentCard.value < previousCard.value;
+  }
+  if (guess === 'red') {
+    return currentCard.suit === 'hearts' || currentCard.suit === 'diamonds';
+  }
+  if (guess === 'black') {
+    return currentCard.suit === 'clubs' || currentCard.suit === 'spades';
+  }
+  return false;
+}
+
+function changeBet(amount) {
+  bet = amount;
+  updateDisplay();
 }
 
 function redeemRewards() {
   if (point >= 100) {
-    point -= 100;
     credit += 50;
-    document.getElementById("point").innerText = point;
-    document.getElementById("credit").innerText = credit;
-    alert("Redeemed 100 points for 50 credit!");
+    point -= 100;
+    updateDisplay();
   } else {
-    alert("Not enough points!");
+    alert('Not enough points!');
   }
 }
 
-function startGame() {
-  currentCards = [drawCard(), drawCard(), drawCard()];
-  document.getElementById("card1").innerText = currentCards[0].value;
-  document.getElementById("card2").innerText = currentCards[1].value;
-  document.getElementById("card3").innerText = "?";
+function updateDisplay() {
+  document.getElementById('credit').textContent = credit;
+  document.getElementById('bet').textContent = bet;
+  document.getElementById('point').textContent = point;
 }
 
-function drawCard() {
-  return cards[Math.floor(Math.random() * cards.length)];
-}
-
+// Initialize the game when the page loads
+initializeGame();
 startGame();

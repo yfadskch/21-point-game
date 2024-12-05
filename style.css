@@ -8,19 +8,19 @@ body {
 
 .container {
   max-width: 600px;
-  margin: 0 auto;
-  padding: 20px;
+  margin: 20px auto;
+  padding: 10px;
 }
 
 h1 {
   font-size: 2em;
-  margin-bottom: 20px;
+  color: #333;
 }
 
 .cards {
   display: flex;
   justify-content: center;
-  margin-bottom: 20px;
+  margin: 20px 0;
 }
 
 .card {
@@ -29,21 +29,22 @@ h1 {
   border: 2px solid #007bff;
   border-radius: 8px;
   margin: 0 10px;
-  font-size: 2em;
-  line-height: 120px;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5em;
   background-color: white;
+  color: #333;
   transition: transform 0.6s;
-  transform-style: preserve-3d;
 }
 
-.card.flipped {
+.card.flip {
   transform: rotateY(180deg);
 }
 
 .info {
-  margin-bottom: 20px;
   font-size: 1.2em;
+  margin-bottom: 20px;
 }
 
 .bets {
@@ -54,22 +55,23 @@ h1 {
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  font-size: 1em;
-  color: white;
   border: none;
+  font-size: 1em;
+  font-weight: bold;
   margin: 0 5px;
+  color: white;
   cursor: pointer;
 }
 
-.chip.blue {
+.blue {
   background-color: #007bff;
 }
 
-.chip.green {
+.green {
   background-color: #28a745;
 }
 
-.chip.yellow {
+.yellow {
   background-color: #ffc107;
 }
 
@@ -78,30 +80,32 @@ h1 {
 }
 
 .guess {
-  background-color: #ffc107;
-  color: black;
-  border: none;
-  padding: 10px 20px;
+  width: 80px;
+  height: 40px;
   margin: 5px;
-  cursor: pointer;
+  font-size: 1em;
+  font-weight: bold;
+  color: white;
+  background-color: #ffc107;
+  border: none;
   border-radius: 5px;
-}
-
-.guess:hover {
-  background-color: #e0a800;
+  cursor: pointer;
 }
 
 .redeem {
-  background-color: #ff5722;
+  width: 200px;
+  height: 40px;
+  margin: 10px 0;
+  font-size: 1em;
+  font-weight: bold;
   color: white;
+  background-color: #ff5722;
   border: none;
-  padding: 10px 20px;
-  cursor: pointer;
   border-radius: 5px;
+  cursor: pointer;
 }
 
 #result {
-  margin-top: 20px;
   font-size: 1.2em;
-  color: red;
+  margin-top: 10px;
 }
