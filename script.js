@@ -58,7 +58,7 @@ function makeGuess(guess) {
         (guess === 'black' && ['club', 'spade'].includes(nextCard.suit))
     ) {
         point += bet;
-        credit += bet;
+        credit += bet * 2; // 猜对时增加 double betting
         document.getElementById('message').textContent = '🎉 Correct!';
     } else {
         document.getElementById('message').textContent = '❌ Wrong!';
