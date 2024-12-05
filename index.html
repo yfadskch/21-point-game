@@ -7,65 +7,37 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Card Guessing Game</h1>
-        </header>
-
-        <!-- 卡牌部分 -->
-        <main>
-            <div class="cards-container">
-                <div class="card-display" id="previousCard">
-                    <div class="card-number">?</div>
-                    <div class="card-suit">?</div>
-                </div>
-                <div class="card-display" id="currentCard">
-                    <div class="card-number">?</div>
-                    <div class="card-suit">?</div>
-                </div>
-                <div class="card-display flip-card" id="nextCard">
-                    <div class="flip-card-inner">
-                        <div class="flip-card-front">?</div>
-                        <div class="flip-card-back">
-                            <div class="card-number"></div>
-                            <div class="card-suit"></div>
-                        </div>
-                    </div>
+    <div class="game-container">
+        <h1>Card Guessing Game</h1>
+        <div id="card-container" class="card-container">
+            <div class="card" id="previousCard">?</div>
+            <div class="card" id="currentCard">?</div>
+            <div class="card flip-card" id="nextCard">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">?</div>
+                    <div class="flip-card-back">?</div>
                 </div>
             </div>
-
-            <!-- 分数信息 -->
-            <div class="game-info">
-                <p id="credit">Credit: 200</p>
-                <p id="bet">Bet: 10</p>
-                <p id="point">Point: 100</p>
-            </div>
-
-            <!-- 投注按钮 -->
-            <div class="bet-controls">
-                <button onclick="changeBet(10)" class="chip-button chip-10">10</button>
-                <button onclick="changeBet(20)" class="chip-button chip-20">20</button>
-                <button onclick="changeBet(50)" class="chip-button chip-50">50</button>
-            </div>
-
-            <!-- 猜测按钮 -->
-            <div class="controls">
-                <h2>Make a Guess:</h2>
-                <button class="guess-btn" onclick="makeGuess('high')">High</button>
-                <button class="guess-btn" onclick="makeGuess('low')">Low</button>
-                <button class="guess-btn" onclick="makeGuess('red')">Red</button>
-                <button class="guess-btn" onclick="makeGuess('black')">Black</button>
-            </div>
-
-            <!-- 提示信息 -->
-            <div id="message" class="message"></div>
-        </main>
-
-        <!-- 奖励兑换 -->
-        <footer>
-            <button id="redeemButton" onclick="redeemRewards()">Redeem Rewards</button>
-            <p>© 2024 Card Game. All Rights Reserved.</p>
-        </footer>
+        </div>
+        <div id="stats">
+            <span id="credit">Credit: 200</span>
+            <span id="bet">Bet: 10</span>
+            <span id="point">Point: 100</span>
+        </div>
+        <div id="bet-options">
+            <button class="bet-button blue" onclick="changeBet(10)">10</button>
+            <button class="bet-button green" onclick="changeBet(20)">20</button>
+            <button class="bet-button yellow" onclick="changeBet(50)">50</button>
+        </div>
+        <div id="guess-options">
+            <h2>Make a Guess:</h2>
+            <button class="guess-button" onclick="makeGuess('high')">High</button>
+            <button class="guess-button" onclick="makeGuess('low')">Low</button>
+            <button class="guess-button" onclick="makeGuess('red')">Red</button>
+            <button class="guess-button" onclick="makeGuess('black')">Black</button>
+        </div>
+        <button id="redeem-rewards" onclick="redeemRewards()">Redeem Rewards</button>
+        <p id="message"></p>
     </div>
     <script src="script.js"></script>
 </body>
