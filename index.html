@@ -11,13 +11,9 @@
         <header>
             <h1>Card Guessing Game</h1>
         </header>
-        <main>
-            <div class="game-info">
-                <p id="score">Score: 100</p>
-                <p id="credit">Credit: 200</p>
-                <p id="bet">Bet: 10</p>
-            </div>
 
+        <!-- 卡牌部分 -->
+        <main>
             <div class="cards-container">
                 <div class="card-display" id="previousCard">
                     <div class="card-number">?</div>
@@ -38,12 +34,21 @@
                 </div>
             </div>
 
-            <div class="bet-controls">
-                <button onclick="changeBet(10)">10</button>
-                <button onclick="changeBet(20)">20</button>
-                <button onclick="changeBet(50)">50</button>
+            <!-- 分数信息 -->
+            <div class="game-info">
+                <p id="score">Score: 100</p>
+                <p id="credit">Credit: 200</p>
+                <p id="bet">Bet: 10</p>
             </div>
 
+            <!-- 投注按钮 -->
+            <div class="bet-controls">
+                <button onclick="changeBet(10)" class="chip-button chip-10">10</button>
+                <button onclick="changeBet(20)" class="chip-button chip-20">20</button>
+                <button onclick="changeBet(50)" class="chip-button chip-50">50</button>
+            </div>
+
+            <!-- 猜测按钮 -->
             <div class="controls">
                 <h2>Make a Guess:</h2>
                 <button class="guess-btn" onclick="makeGuess('high')">High</button>
@@ -51,9 +56,12 @@
                 <button class="guess-btn" onclick="makeGuess('red')">Red</button>
                 <button class="guess-btn" onclick="makeGuess('black')">Black</button>
             </div>
+
+            <!-- 提示信息 -->
             <div id="message" class="message"></div>
         </main>
 
+        <!-- 积分兑换 -->
         <footer>
             <button id="redeemButton" onclick="redeemPoints()">Redeem 100 Points for 50 Credit</button>
             <p>© 2024 Card Game. All Rights Reserved.</p>
