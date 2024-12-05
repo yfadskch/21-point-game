@@ -1,67 +1,110 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Card Guessing Game</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div class="container">
-        <header>
-            <h1>Card Guessing Game</h1>
-        </header>
-        <main>
-            <div class="cards-container">
-                <div class="card-display" id="previousCard">
-                    <div class="card-number">?</div>
-                    <div class="card-suit">?</div>
-                </div>
-                <div class="card-display" id="currentCard">
-                    <div class="card-number">?</div>
-                    <div class="card-suit">?</div>
-                </div>
-                <div class="card-display flip-card" id="nextCard">
-                    <div class="flip-card-inner">
-                        <div class="flip-card-front">?</div>
-                        <div class="flip-card-back">
-                            <div class="card-number"></div>
-                            <div class="card-suit"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+/* 通用样式 */
+body {
+    font-family: 'Arial', sans-serif;
+    background: #f8f9fa;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: #333;
+}
 
-            <!-- 显示积分和投注 -->
-            <div class="game-info">
-                <p id="score">Score: 100</p>
-                <p id="bet">Bet: 10</p>
-            </div>
+.container {
+    text-align: center;
+    background: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 90%;
+    max-width: 500px;
+}
 
-            <!-- 筹码选择 -->
-            <div class="bet-controls">
-                <button onclick="changeBet(10)">10</button>
-                <button onclick="changeBet(20)">20</button>
-                <button onclick="changeBet(50)">50</button>
-            </div>
+header h1 {
+    font-size: 22px;
+    margin-bottom: 10px;
+    color: #007BFF;
+}
 
-            <!-- 猜测按钮 -->
-            <div class="controls">
-                <h2>Make a Guess:</h2>
-                <button class="guess-btn" onclick="makeGuess('high')">High</button>
-                <button class="guess-btn" onclick="makeGuess('low')">Low</button>
-                <button class="guess-btn" onclick="makeGuess('red')">Red</button>
-                <button class="guess-btn" onclick="makeGuess('black')">Black</button>
-            </div>
-            <div id="message" class="message"></div>
-        </main>
+.cards-container {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+}
 
-        <!-- 积分兑换 -->
-        <footer>
-            <button onclick="redeemPoints()">Redeem 100 Points for 10 Chips</button>
-            <p>© 2024 Card Game. All Rights Reserved.</p>
-        </footer>
-    </div>
-    <script src="script.js"></script>
-</body>
-</html>
+/* 卡牌样式 */
+.card-display {
+    width: 100px;
+    height: 140px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(135deg, #ffffff, #e8e8e8);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    border: 2px solid #007BFF;
+}
+
+/* 翻转动画样式 */
+.flip-card-inner {
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s ease-in-out;
+    transform-style: preserve-3d;
+    position: relative;
+}
+
+.flip-card.flipped .flip-card-inner {
+    transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.flip-card-back {
+    transform: rotateY(180deg);
+    background: #ffffff;
+}
+
+/* 按钮样式 */
+.bet-controls button,
+.guess-btn {
+    background: #ffc107;
+    color: #333;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 12px;
+    margin: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.bet-controls button:hover,
+.guess-btn:hover {
+    background: #e0a800;
+}
+
+.message {
+    margin: 20px 0;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+}
