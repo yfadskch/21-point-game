@@ -1,88 +1,106 @@
-let credit = 200;
+const ranks = [2, 3, 4, 5, 6, 7, 8, 9, 10, 'J', 'Q', 'K', 'A'];
+const suits = ['club', 'diamond', 'heart', 'spade'];
+const suitSymbols = { club: '♣️', diamond: '♦️', heart: '♥️', spade: '♠️' };
+let currentCard = generateCard();
+let previousCard = { rank: '?', suit: '?' };
+let nextCard = generateCard();
 let point = 100;
+let credit = 200;
 let bet = 10;
 
-let suits = ["♠", "♣", "♥", "♦"];
-let lastCard = null;
-
+// 随机生成卡牌
 function generateCard() {
-    let number = Math.floor(Math.random() * 13) + 1;
-    let suit = suits[Math.floor(Math.random() * suits.length)];
-    return { number, suit };
+    return {
+        rank: ranks[Math.floor(Math.random() * ranks.length)],
+        suit: suits[Math.floor(Math.random() * suits.length)],
+    };
 }
 
+// 显示卡牌
 function displayCards() {
-    const card1 = document.getElementById("card1");
-    const card2 = document.getElementById("card2");
-    const card3 = document.getElementById("card3");
+    document.getElementById('previousCard').querySelector('.card-number').textContent = previousCard.rank;
+    document.getElementById('previousCard').querySelector('.card-suit').textContent = suitSymbols[previousCard.suit] || '?';
 
-    // First card is the last round's second card
-    if (lastCard) {
-        card1.textContent = lastCard.number + lastCard.suit;
-    } else {
-        const initialCard = generateCard();
-        card1.textContent = initialCard.number + initialCard.suit;
-        lastCard = initialCard;
-    }
+    document.getElementById('currentCard').querySelector('.card-number').textContent = currentCard.rank;
+    document.getElementById('currentCard').querySelector('.card-suit').textContent = suitSymbols[currentCard.suit];
 
-    // Second card: Random new card
-    const newCard = generateCard();
-    card2.textContent = newCard.number + newCard.suit;
-    lastCard = newCard;
+    const nextCardBack = document.querySelector('#nextCard .flip-card-back');
+    nextCardBack.querySelector('.card-number').textContent = nextCard.rank;
+    nextCardBack.querySelector('.card-suit').textContent = suitSymbols[nextCard.suit];
 
-    // Third card: Hidden
-    card3.textContent = "?";
+    document.querySelector('#nextCard .flip-card-front').textContent = '?';
+
+    document.getElementById('point').textContent = `Point: ${point}`;
+    document.getElementById('credit').textContent = `Credit: ${credit}`;
+    document.getElementById('bet').textContent = `Bet: ${bet}`;
 }
 
+// 修改投注金额
 function changeBet(amount) {
     bet = amount;
-    document.getElementById("bet").textContent = bet;
+    document.getElementById('bet').textContent = `Bet: ${bet}`;
 }
 
-function makeGuess(type) {
-    const resultText = document.getElementById("result");
-    const card3 = generateCard();
+// 猜测逻辑
+function makeGuess(guess) {
+    if (credit < bet) {
+        document.getElementById('message').textContent = '❌ Not enough Credit!';
+        return;
+    }
 
-    const card3Element = document.getElementById("card3");
-    card3Element.textContent = card3.number + card3.suit;
+    credit -= bet;
+    const comparison = compareCards(currentCard, nextCard);
 
-    let isCorrect = false;
-    if (type === "High" && card3.number > lastCard.number) isCorrect = true;
-    if (type === "Low" && card3.number < lastCard.number) isCorrect = true;
-    if (type === "Red" && (card3.suit === "♥" || card3.suit === "♦")) isCorrect = true;
-    if (type === "Black" && (card3.suit === "♠" || card3.suit === "♣")) isCorrect = true;
-
-    if (isCorrect) {
-        credit += bet;
-        point += bet * 2;
-        resultText.textContent = "Correct!";
-        resultText.style.color = "green";
+    if (
+        (guess === 'high' && comparison < 0) ||
+        (guess === 'low' && comparison > 0) ||
+        (guess === 'red' && ['heart', 'diamond'].includes(nextCard.suit)) ||
+        (guess === 'black' && ['club', 'spade'].includes(nextCard.suit))
+    ) {
+        point += bet;
+        credit += bet * 2; // 猜对时增加 double betting
+        document.getElementById('message').textContent = '🎉 Correct!';
     } else {
-        credit -= bet;
-        resultText.textContent = "Wrong!";
-        resultText.style.color = "red";
+        document.getElementById('message').textContent = '❌ Wrong!';
     }
 
-    document.getElementById("credit").textContent = credit;
-    document.getElementById("point").textContent = point;
-
-    if (credit <= 0) {
-        alert("Not enough credit!");
-        credit = 0;
-    }
+    previousCard = currentCard;
+    currentCard = nextCard;
+    nextCard = generateCard();
+    displayCards();
+    resetCard();
 }
 
-function redeemRewards() {
+// 比较卡牌大小
+function compareCards(card1, card2) {
+    const rank1 = ranks.indexOf(card1.rank);
+    const rank2 = ranks.indexOf(card2.rank);
+    return rank1 - rank2;
+}
+
+// 兑换积分
+function redeemPoints() {
     if (point >= 100) {
         point -= 100;
         credit += 50;
-        document.getElementById("credit").textContent = credit;
-        document.getElementById("point").textContent = point;
-        alert("Redeemed 50 credits for 100 points!");
+        alert('Redeemed 100 points for 50 credits!');
     } else {
-        alert("Not enough points to redeem!");
+        alert('Not enough points to redeem.');
     }
+    displayCards();
 }
 
-// Initial display
+// 翻转卡牌
+function flipCard() {
+    const card = document.getElementById('nextCard');
+    card.classList.add('flipped');
+}
+
+// 重置翻转状态
+function resetCard() {
+    const card = document.getElementById('nextCard');
+    card.classList.remove('flipped');
+}
+
+// 初始化显示
 displayCards();
