@@ -1,149 +1,96 @@
-/* 通用样式 */
 body {
-    font-family: 'Arial', sans-serif;
-    background: #f8f9fa;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    color: #333;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #f4f4f4;
 }
 
 .container {
-    text-align: center;
-    background: #ffffff;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    padding: 20px;
+    margin: 50px auto;
     width: 90%;
-    max-width: 500px;
+    max-width: 400px;
 }
 
-header h1 {
-    font-size: 24px;
-    margin-bottom: 20px;
-    color: #007BFF;
+h1 {
+    font-size: 2rem;
+    color: #333;
 }
 
-/* 卡牌样式 */
-.cards-container {
+.card-area {
     display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-    gap: 10px;
-}
-
-.card-display {
-    width: 80px;
-    height: 120px;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-    background: linear-gradient(135deg, #ffffff, #e8e8e8);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    font-size: 18px;
-    font-weight: bold;
-    border: 2px solid #007BFF;
-}
-
-.flip-card-inner {
-    width: 100%;
-    height: 100%;
-    transition: transform 0.6s ease-in-out;
-    transform-style: preserve-3d;
-    position: relative;
-}
-
-.flip-card.flipped .flip-card-inner {
-    transform: rotateY(180deg);
-}
-
-.flip-card-front,
-.flip-card-back {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
-    border-radius: 8px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 22px;
-    font-weight: bold;
-}
-
-.flip-card-back {
-    transform: rotateY(180deg);
-    background: #ffffff;
-}
-
-/* 投注按钮样式 */
-.bet-controls {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
+    justify-content: space-around;
     margin: 20px 0;
 }
 
-.chip-button {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    font-size: 16px;
-    font-weight: bold;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.chip-button:hover {
-    transform: scale(1.1);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.chip-10 {
-    background: #007BFF;
-}
-.chip-20 {
-    background: #28A745;
-}
-.chip-50 {
-    background: #FFC107;
-}
-
-.guess-btn {
-    background: #FFC107;
-    color: #333;
-    border: none;
-    border-radius: 5px;
-    padding: 8px 12px;
-    margin: 5px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background 0.3s ease;
-}
-
-.guess-btn:hover {
-    background: #E0A800;
-}
-
-.game-info {
+.card {
+    width: 60px;
+    height: 80px;
+    border: 2px solid #007bff;
     display: flex;
     justify-content: center;
-    gap: 20px;
+    align-items: center;
+    font-size: 1.5rem;
+    color: #333;
+    background-color: #fff;
+    border-radius: 8px;
+}
+
+.info {
     margin: 10px 0;
 }
 
-.message {
-    margin-top: 20px;
-    font-size: 18px;
+.bet-options, .guess-options {
+    margin: 20px 0;
+}
+
+.chip {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    font-size: 1rem;
     font-weight: bold;
-    color: #333;
+    color: #fff;
+    margin: 0 5px;
+    border: none;
+    cursor: pointer;
+}
+
+.blue {
+    background-color: #007bff;
+}
+
+.green {
+    background-color: #28a745;
+}
+
+.yellow {
+    background-color: #ffc107;
+}
+
+.guess-button {
+    background-color: #ffca28;
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 5px;
+    color: #000;
+    font-weight: bold;
+}
+
+.redeem-button {
+    background-color: #dc3545;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 20px 0;
+    font-size: 1rem;
+}
+
+#result-message {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-top: 10px;
 }

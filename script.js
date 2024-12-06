@@ -1,106 +1,79 @@
-const ranks = [2, 3, 4, 5, 6, 7, 8, 9, 10, 'J', 'Q', 'K', 'A'];
-const suits = ['club', 'diamond', 'heart', 'spade'];
-const suitSymbols = { club: '♣️', diamond: '♦️', heart: '♥️', spade: '♠️' };
-let currentCard = generateCard();
-let previousCard = { rank: '?', suit: '?' };
-let nextCard = generateCard();
-let point = 100;
 let credit = 200;
 let bet = 10;
+let point = 100;
+let lastCardValue = null;
 
-// 随机生成卡牌
+function changeBet(amount) {
+    if (credit >= amount) {
+        bet = amount;
+        document.getElementById('bet').textContent = bet;
+    } else {
+        alert('Not enough credit!');
+    }
+}
+
+function makeGuess(guess) {
+    const card1 = generateCard();
+    const card2 = generateCard();
+    const card3 = generateCard();
+
+    document.getElementById('card1').textContent = card1.value + card1.suit;
+    document.getElementById('card2').textContent = card2.value + card2.suit;
+    document.getElementById('card3').textContent = '?';
+
+    let result = evaluateGuess(guess, card3);
+
+    if (result) {
+        credit += bet;
+        point += bet;
+        document.getElementById('result-message').textContent = 'Correct!';
+        document.getElementById('result-message').style.color = 'green';
+    } else {
+        credit -= bet;
+        document.getElementById('result-message').textContent = 'Wrong!';
+        document.getElementById('result-message').style.color = 'red';
+    }
+
+    document.getElementById('credit').textContent = credit;
+    document.getElementById('point').textContent = point;
+    lastCardValue = card2.value;
+}
+
 function generateCard() {
+    const suits = ['♠', '♣', '♥', '♦'];
+    const values = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
     return {
-        rank: ranks[Math.floor(Math.random() * ranks.length)],
         suit: suits[Math.floor(Math.random() * suits.length)],
+        value: values[Math.floor(Math.random() * values.length)],
     };
 }
 
-// 显示卡牌
-function displayCards() {
-    document.getElementById('previousCard').querySelector('.card-number').textContent = previousCard.rank;
-    document.getElementById('previousCard').querySelector('.card-suit').textContent = suitSymbols[previousCard.suit] || '?';
-
-    document.getElementById('currentCard').querySelector('.card-number').textContent = currentCard.rank;
-    document.getElementById('currentCard').querySelector('.card-suit').textContent = suitSymbols[currentCard.suit];
-
-    const nextCardBack = document.querySelector('#nextCard .flip-card-back');
-    nextCardBack.querySelector('.card-number').textContent = nextCard.rank;
-    nextCardBack.querySelector('.card-suit').textContent = suitSymbols[nextCard.suit];
-
-    document.querySelector('#nextCard .flip-card-front').textContent = '?';
-
-    document.getElementById('point').textContent = `Point: ${point}`;
-    document.getElementById('credit').textContent = `Credit: ${credit}`;
-    document.getElementById('bet').textContent = `Bet: ${bet}`;
+function evaluateGuess(guess, card) {
+    const cardValue = parseInt(card.value) || (card.value === 'A' ? 14 : 10);
+    const guessIsCorrect =
+        (guess === 'High' && cardValue > 7) ||
+        (guess === 'Low' && cardValue <= 7) ||
+        (guess === 'Red' && (card.suit === '♥' || card.suit === '♦')) ||
+        (guess === 'Black' && (card.suit === '♠' || card.suit === '♣'));
+    return guessIsCorrect;
 }
 
-// 修改投注金额
-function changeBet(amount) {
-    bet = amount;
-    document.getElementById('bet').textContent = `Bet: ${bet}`;
-}
+function redeemRewards() {
+    const choice = prompt('Choose a reward:\n1.200 Points: +200 Balance\n2.1000 Points: Welcome Bonus 60%\n3.3000 Points: Free 8.88');
 
-// 猜测逻辑
-function makeGuess(guess) {
-    if (credit < bet) {
-        document.getElementById('message').textContent = '❌ Not enough Credit!';
-        return;
-    }
-
-    credit -= bet;
-    const comparison = compareCards(currentCard, nextCard);
-
-    if (
-        (guess === 'high' && comparison < 0) ||
-        (guess === 'low' && comparison > 0) ||
-        (guess === 'red' && ['heart', 'diamond'].includes(nextCard.suit)) ||
-        (guess === 'black' && ['club', 'spade'].includes(nextCard.suit))
-    ) {
-        point += bet;
-        credit += bet * 2; // 猜对时增加 double betting
-        document.getElementById('message').textContent = '🎉 Correct!';
+    if (choice === '1' && point >= 200) {
+        point -= 200;
+        credit += 200;
+    } else if (choice === '2' && point >= 1000) {
+        point -= 1000;
+        credit += Math.floor(credit * 0.6);
+    } else if (choice === '3' && point >= 3000) {
+        point -= 3000;
+        alert('You received Free 8.88!');
     } else {
-        document.getElementById('message').textContent = '❌ Wrong!';
+        alert('Not enough points or invalid choice!');
     }
 
-    previousCard = currentCard;
-    currentCard = nextCard;
-    nextCard = generateCard();
-    displayCards();
-    resetCard();
+    document.getElementById('credit').textContent = credit;
+    document.getElementById('point').textContent = point;
 }
-
-// 比较卡牌大小
-function compareCards(card1, card2) {
-    const rank1 = ranks.indexOf(card1.rank);
-    const rank2 = ranks.indexOf(card2.rank);
-    return rank1 - rank2;
-}
-
-// 兑换积分
-function redeemPoints() {
-    if (point >= 100) {
-        point -= 100;
-        credit += 50;
-        alert('Redeemed 100 points for 50 credits!');
-    } else {
-        alert('Not enough points to redeem.');
-    }
-    displayCards();
-}
-
-// 翻转卡牌
-function flipCard() {
-    const card = document.getElementById('nextCard');
-    card.classList.add('flipped');
-}
-
-// 重置翻转状态
-function resetCard() {
-    const card = document.getElementById('nextCard');
-    card.classList.remove('flipped');
-}
-
-// 初始化显示
-displayCards();
