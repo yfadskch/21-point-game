@@ -2,7 +2,8 @@ let credit = 200;
 let point = 100;
 let bet = 10;
 
-let previousSecondCard = null;
+let card1 = null;
+let card2 = null;
 
 const suits = ['♠', '♣', '♥️', '♦️'];
 const ranks = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
@@ -14,12 +15,11 @@ function getRandomCard() {
 }
 
 function startNewRound() {
-    const firstCard = previousSecondCard || getRandomCard();
-    const secondCard = getRandomCard();
-    previousSecondCard = secondCard;
+    if (!card1) card1 = getRandomCard();
+    if (!card2) card2 = getRandomCard();
 
-    document.getElementById('card1').textContent = firstCard;
-    document.getElementById('card2').textContent = secondCard;
+    document.getElementById('card1').textContent = card1;
+    document.getElementById('card2').textContent = card2;
     document.getElementById('card3').textContent = '?';
 
     document.getElementById('message').textContent = '';
@@ -37,19 +37,23 @@ function makeGuess(guess) {
     }
 
     credit -= bet;
-    point += bet; // Point 增加，每次投注都会加分
+    point += bet;
     document.getElementById('credit').textContent = credit;
     document.getElementById('point').textContent = point;
 
     const thirdCard = getRandomCard();
     const card3Element = document.getElementById('card3');
 
-    // 显示真实卡牌
     card3Element.textContent = thirdCard;
 
-    // 等待 2 秒后，将卡牌重置为 ?
     setTimeout(() => {
         card3Element.textContent = '?';
+
+        // 更新卡牌顺序
+        card1 = card2;
+        card2 = thirdCard;
+
+        startNewRound();
     }, 2000);
 
     const rank = thirdCard.slice(0, -1);
@@ -58,9 +62,9 @@ function makeGuess(guess) {
     let correct = false;
 
     if (guess === 'High') {
-        correct = ranks.indexOf(rank) > ranks.indexOf(previousSecondCard.slice(0, -1));
+        correct = ranks.indexOf(rank) > ranks.indexOf(card2.slice(0, -1));
     } else if (guess === 'Low') {
-        correct = ranks.indexOf(rank) < ranks.indexOf(previousSecondCard.slice(0, -1));
+        correct = ranks.indexOf(rank) < ranks.indexOf(card2.slice(0, -1));
     } else if (guess === 'Red') {
         correct = suit === '♥️' || suit === '♦️';
     } else if (guess === 'Black') {
@@ -77,8 +81,6 @@ function makeGuess(guess) {
     }
 
     document.getElementById('credit').textContent = credit;
-
-    setTimeout(startNewRound, 2500); // 延迟启动新回合
 }
 
 function redeemRewards() {
