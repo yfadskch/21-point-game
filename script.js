@@ -37,7 +37,7 @@ function makeGuess(guess) {
     }
 
     credit -= bet;
-    point += bet; // Add points regardless of win or loss
+    point += bet; // Point 增加，每次投注都会加分
     document.getElementById('credit').textContent = credit;
     document.getElementById('point').textContent = point;
 
