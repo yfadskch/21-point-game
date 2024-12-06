@@ -10,27 +10,25 @@
     <div class="game-container">
         <h1>Card Guessing Game</h1>
         <div class="cards">
-            <div class="card" id="card1">?</div>
-            <div class="card" id="card2">?</div>
-            <div class="card" id="card3">?</div>
+            <div id="card1" class="card">?</div>
+            <div id="card2" class="card">?</div>
+            <div id="card3" class="card">?</div>
         </div>
-        <div class="stats">
-            <p>Credit: <span id="credit">200</span> Bet: <span id="bet">10</span> Point: <span id="point">100</span></p>
-        </div>
-        <div class="bets">
-            <button class="bet-btn" data-bet="10">10</button>
-            <button class="bet-btn" data-bet="20">20</button>
-            <button class="bet-btn" data-bet="50">50</button>
+        <p>Credit: <span id="credit">200</span> Bet: <span id="bet">10</span> Point: <span id="point">100</span></p>
+        <div class="bet-buttons">
+            <button class="chip blue" onclick="changeBet(10)">10</button>
+            <button class="chip green" onclick="changeBet(20)">20</button>
+            <button class="chip yellow" onclick="changeBet(50)">50</button>
         </div>
         <p>Make a Guess:</p>
-        <div class="guesses">
-            <button class="guess-btn" data-guess="High">High</button>
-            <button class="guess-btn" data-guess="Low">Low</button>
-            <button class="guess-btn" data-guess="Red">Red</button>
-            <button class="guess-btn" data-guess="Black">Black</button>
+        <div class="guess-buttons">
+            <button class="guess-btn" onclick="makeGuess('High')">High</button>
+            <button class="guess-btn" onclick="makeGuess('Low')">Low</button>
+            <button class="guess-btn" onclick="makeGuess('Red')">Red</button>
+            <button class="guess-btn" onclick="makeGuess('Black')">Black</button>
         </div>
-        <button class="redeem-btn" id="redeem">Redeem Rewards</button>
-        <p id="result" class="result"></p>
+        <button class="redeem-btn" onclick="redeemRewards()">Redeem Rewards</button>
+        <p id="message"></p>
     </div>
     <script src="script.js"></script>
 </body>
