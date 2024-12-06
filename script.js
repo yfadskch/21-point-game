@@ -36,6 +36,11 @@ function makeGuess(guess) {
         return;
     }
 
+    credit -= bet;
+    point += bet; // Add points regardless of win or loss
+    document.getElementById('credit').textContent = credit;
+    document.getElementById('point').textContent = point;
+
     const thirdCard = getRandomCard();
     document.getElementById('card3').textContent = thirdCard;
 
@@ -55,18 +60,15 @@ function makeGuess(guess) {
     }
 
     if (correct) {
-        credit += bet;
-        point += bet;
+        credit += bet * 2;
         document.getElementById('message').textContent = 'Correct!';
         document.getElementById('message').style.color = 'green';
     } else {
-        credit -= bet;
         document.getElementById('message').textContent = 'Wrong!';
         document.getElementById('message').style.color = 'red';
     }
 
     document.getElementById('credit').textContent = credit;
-    document.getElementById('point').textContent = point;
 
     startNewRound();
 }
