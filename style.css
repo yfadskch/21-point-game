@@ -1,96 +1,88 @@
 body {
+    margin: 0;
     font-family: Arial, sans-serif;
+    color: #333;
     text-align: center;
-    background-color: #f4f4f4;
+    background: url('https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExNXpwaGxjYzJ1OHN1eGR3MHR3d2xlcTd1b3JvN2l5NWJiOXEzMjBkbyZlcD12MV9pbnRlcm5naWZfYnlfaWQmY3Q9Zw/xytwrhaA1JSbBtgxew/giphy.gif') no-repeat center center fixed;
+    background-size: cover;
 }
 
-.container {
+.game-container {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 10px;
+    width: 300px;
     margin: 50px auto;
-    width: 90%;
-    max-width: 400px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 h1 {
-    font-size: 2rem;
-    color: #333;
+    color: #ff5722;
 }
 
-.card-area {
+.cards {
     display: flex;
     justify-content: space-around;
-    margin: 20px 0;
+    margin-bottom: 20px;
 }
 
 .card {
     width: 60px;
-    height: 80px;
-    border: 2px solid #007bff;
+    height: 90px;
+    border: 2px solid #000;
+    border-radius: 5px;
     display: flex;
-    justify-content: center;
     align-items: center;
-    font-size: 1.5rem;
-    color: #333;
-    background-color: #fff;
-    border-radius: 8px;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: bold;
+    background: #fff;
 }
 
 .info {
-    margin: 10px 0;
+    margin-bottom: 20px;
 }
 
 .bet-options, .guess-options {
-    margin: 20px 0;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
 }
 
-.chip {
-    width: 60px;
-    height: 60px;
+.bet, .guess {
+    margin: 0 10px;
+    padding: 10px;
+    border: none;
     border-radius: 50%;
-    font-size: 1rem;
-    font-weight: bold;
+    width: 50px;
+    height: 50px;
     color: #fff;
-    margin: 0 5px;
-    border: none;
-    cursor: pointer;
-}
-
-.blue {
-    background-color: #007bff;
-}
-
-.green {
-    background-color: #28a745;
-}
-
-.yellow {
-    background-color: #ffc107;
-}
-
-.guess-button {
-    background-color: #ffca28;
-    border: none;
-    padding: 10px 20px;
-    margin: 5px;
-    font-size: 1rem;
-    cursor: pointer;
-    border-radius: 5px;
-    color: #000;
+    font-size: 18px;
     font-weight: bold;
+    cursor: pointer;
 }
 
-.redeem-button {
-    background-color: #dc3545;
+.bet:nth-child(1) { background: #2196f3; }
+.bet:nth-child(2) { background: #4caf50; }
+.bet:nth-child(3) { background: #ffeb3b; color: #333; }
+
+.guess {
+    background: #ffc107;
+}
+
+.redeem {
+    background: #f44336;
     color: #fff;
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    margin: 20px 0;
-    font-size: 1rem;
+    font-size: 18px;
+    margin-top: 20px;
 }
 
-#result-message {
-    font-size: 1.2rem;
+#message {
+    font-size: 18px;
+    color: #f44336;
     font-weight: bold;
-    margin-top: 10px;
 }
