@@ -42,7 +42,15 @@ function makeGuess(guess) {
     document.getElementById('point').textContent = point;
 
     const thirdCard = getRandomCard();
-    document.getElementById('card3').textContent = thirdCard;
+    const card3Element = document.getElementById('card3');
+
+    // 显示真实卡牌
+    card3Element.textContent = thirdCard;
+
+    // 等待 2 秒后，将卡牌重置为 ?
+    setTimeout(() => {
+        card3Element.textContent = '?';
+    }, 2000);
 
     const rank = thirdCard.slice(0, -1);
     const suit = thirdCard.slice(-1);
@@ -70,7 +78,7 @@ function makeGuess(guess) {
 
     document.getElementById('credit').textContent = credit;
 
-    startNewRound();
+    setTimeout(startNewRound, 2500); // 延迟启动新回合
 }
 
 function redeemRewards() {
