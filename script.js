@@ -2,13 +2,11 @@ let balance = 200;
 let points = 0;
 let currentBet = 100;
 
-// 更新显示余额和积分
 function updateDisplay() {
   document.getElementById('balance').textContent = balance;
   document.getElementById('points').textContent = points;
 }
 
-// 检查余额是否足够投注
 function canPlaceBet() {
   if (balance < currentBet) {
     document.getElementById('message').textContent = "Insufficient balance!";
@@ -17,15 +15,13 @@ function canPlaceBet() {
   return true;
 }
 
-// 随机生成卡牌
 function getRandomCard() {
   const suits = ['hearts', 'diamonds', 'clubs', 'spades'];
-  const suit = suits[Math.floor(Math.random() * 4)];
+  const suit = suits[Math.floor(Math.random() * suits.length)];
   const value = Math.floor(Math.random() * 13) + 1;
   return { suit, value };
 }
 
-// 初始化游戏
 function startGame() {
   document.getElementById('card1').textContent = '?';
   document.getElementById('card2').textContent = '?';
@@ -33,15 +29,14 @@ function startGame() {
   document.getElementById('message').textContent = 'Make Your Guess!';
 }
 
-// 检查用户的猜测
 function checkGuess(condition) {
-  if (!canPlaceBet()) return; // 检查余额是否足够投注
+  if (!canPlaceBet()) return;
 
   const card3 = getRandomCard();
   document.getElementById('card3').textContent = card3.value;
 
-  const card2Value = 5; // 固定第二张牌的值，用于测试逻辑
   let win = false;
+  const card2Value = 7; // 固定值模拟猜测
 
   if (condition === 'higher') win = card3.value > card2Value;
   else if (condition === 'lower') win = card3.value < card2Value;
@@ -60,7 +55,6 @@ function checkGuess(condition) {
   updateDisplay();
 }
 
-// 打开奖励弹窗
 function openRewardPopup() {
   document.getElementById('modal').style.display = 'block';
 }
@@ -69,14 +63,12 @@ function closeRewardPopup() {
   document.getElementById('modal').style.display = 'none';
 }
 
-// 监听投注选择按钮
 document.querySelectorAll('.bet-btn').forEach(button => {
   button.addEventListener('click', () => {
     currentBet = parseInt(button.dataset.bet);
   });
 });
 
-// 监听奖励按钮
 document.getElementById('reward-btn').addEventListener('click', openRewardPopup);
 
 document.querySelectorAll('.reward-option').forEach(button => {
@@ -102,13 +94,11 @@ document.querySelectorAll('.reward-option').forEach(button => {
   });
 });
 
-// 监听猜测按钮
 document.getElementById('btn-high').addEventListener('click', () => checkGuess('higher'));
 document.getElementById('btn-low').addEventListener('click', () => checkGuess('lower'));
 document.getElementById('btn-red').addEventListener('click', () => checkGuess('red'));
 document.getElementById('btn-black').addEventListener('click', () => checkGuess('black'));
 
-// 页面加载初始化
 window.onload = () => {
   updateDisplay();
   startGame();
