@@ -63,7 +63,6 @@ document.getElementById('btn-high').addEventListener('click', () => checkGuess('
 document.getElementById('btn-low').addEventListener('click', () => checkGuess('lower'));
 document.getElementById('btn-red').addEventListener('click', () => checkGuess('red'));
 document.getElementById('btn-black').addEventListener('click', () => checkGuess('black'));
-document.getElementById('btn-restart').addEventListener('click', startGame);
 
-// Start the game
-startGame();
+// Automatically start the game when the page loads
+window.onload = startGame;
