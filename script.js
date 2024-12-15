@@ -1,47 +1,44 @@
 let balance = 200;
 let points = 0;
 let currentBet = 100;
+let previousCard2 = { value: '?', suit: 'unknown' };
+let previousCard3 = { value: '?', suit: 'unknown' };
 
+// 更新显示
 function updateDisplay() {
   document.getElementById('balance').textContent = balance;
   document.getElementById('points').textContent = points;
 }
 
-function canPlaceBet() {
-  if (balance < currentBet) {
-    document.getElementById('message').textContent = "Insufficient balance!";
-    return false;
-  }
-  return true;
-}
-
+// 随机生成卡牌
 function getRandomCard() {
   const suits = ['hearts', 'diamonds', 'clubs', 'spades'];
-  const suit = suits[Math.floor(Math.random() * suits.length)];
-  const value = Math.floor(Math.random() * 13) + 1;
-  return { suit, value };
+  return { suit: suits[Math.floor(Math.random() * suits.length)], value: Math.floor(Math.random() * 13) + 1 };
 }
 
+// 开始新一轮游戏
 function startGame() {
-  document.getElementById('card1').textContent = '?';
-  document.getElementById('card2').textContent = '?';
+  document.getElementById('card1').textContent = previousCard2.value;
+  document.getElementById('card2').textContent = previousCard3.value;
   document.getElementById('card3').textContent = '?';
   document.getElementById('message').textContent = 'Make Your Guess!';
 }
 
+// 检查猜测
 function checkGuess(condition) {
-  if (!canPlaceBet()) return;
+  if (balance < currentBet) {
+    document.getElementById('message').textContent = "Insufficient balance!";
+    return;
+  }
 
   const card3 = getRandomCard();
   document.getElementById('card3').textContent = card3.value;
 
   let win = false;
-  const card2Value = 7; // 固定值模拟猜测
-
-  if (condition === 'higher') win = card3.value > card2Value;
-  else if (condition === 'lower') win = card3.value < card2Value;
-  else if (condition === 'red') win = ['hearts', 'diamonds'].includes(card3.suit);
-  else if (condition === 'black') win = ['clubs', 'spades'].includes(card3.suit);
+  if (condition === 'higher') win = card3.value > previousCard3.value;
+  if (condition === 'lower') win = card3.value < previousCard3.value;
+  if (condition === 'red') win = ['hearts', 'diamonds'].includes(card3.suit);
+  if (condition === 'black') win = ['clubs', 'spades'].includes(card3.suit);
 
   if (win) {
     balance += currentBet;
@@ -52,52 +49,39 @@ function checkGuess(condition) {
     document.getElementById('message').textContent = 'Wrong guess!';
   }
 
+  previousCard2 = previousCard3; // 更新牌
+  previousCard3 = card3;
+
   updateDisplay();
+
+  // 2秒后隐藏并重置游戏
+  setTimeout(startGame, 2000);
 }
 
-function openRewardPopup() {
-  document.getElementById('modal').style.display = 'block';
-}
-
-function closeRewardPopup() {
-  document.getElementById('modal').style.display = 'none';
-}
-
+// 监听事件
 document.querySelectorAll('.bet-btn').forEach(button => {
-  button.addEventListener('click', () => {
-    currentBet = parseInt(button.dataset.bet);
-  });
+  button.addEventListener('click', () => currentBet = parseInt(button.dataset.bet));
 });
 
-document.getElementById('reward-btn').addEventListener('click', openRewardPopup);
+['high', 'low', 'red', 'black'].forEach(guess => {
+  document.getElementById(`btn-${guess}`).addEventListener('click', () => checkGuess(guess));
+});
+
+document.getElementById('reward-btn').addEventListener('click', () => {
+  document.getElementById('modal').style.display = 'block';
+});
 
 document.querySelectorAll('.reward-option').forEach(button => {
   button.addEventListener('click', () => {
     const option = button.dataset.option;
-    let message = '';
-
-    if (option === '1' && points >= 200) {
-      balance += 200;
-      points -= 200;
-      message = 'You redeemed 200 Points for +200 Balance!';
-    } else if (option === '2' && points >= 1000) {
-      message = 'You redeemed 1000 Points for Welcome Bonus!';
-    } else if (option === '3' && points >= 3000) {
-      message = 'You redeemed 3000 Points for Free 8.88!';
-    } else {
-      message = 'Not enough points to redeem this reward!';
-    }
-
-    document.getElementById('modal-message').textContent = message;
+    if (option === '1' && points >= 200) { balance += 200; points -= 200; }
+    else if (option === '2' && points >= 1000) { points -= 1000; }
+    else if (option === '3' && points >= 3000) { points -= 3000; }
+    document.getElementById('modal-message').textContent = "Reward claimed!";
+    document.getElementById('modal').style.display = 'none';
     updateDisplay();
-    setTimeout(closeRewardPopup, 2000);
   });
 });
-
-document.getElementById('btn-high').addEventListener('click', () => checkGuess('higher'));
-document.getElementById('btn-low').addEventListener('click', () => checkGuess('lower'));
-document.getElementById('btn-red').addEventListener('click', () => checkGuess('red'));
-document.getElementById('btn-black').addEventListener('click', () => checkGuess('black'));
 
 window.onload = () => {
   updateDisplay();
