@@ -12,13 +12,13 @@ function updateDisplay() {
   document.getElementById('points').textContent = points;
 }
 
-// 随机生成卡牌
+// 随机生成卡牌 (数值为 1 到 13)
 function getRandomCard() {
   const suits = ['hearts', 'diamonds', 'clubs', 'spades'];
   return { suit: suits[Math.floor(Math.random() * suits.length)], value: Math.floor(Math.random() * 13) + 1 };
 }
 
-// 转换数值为显示字符
+// 转换数值为显示字符 (显示 A, J, Q, K)
 function cardValueToDisplay(value) {
   if (value === 1) return 'A';
   if (value === 11) return 'J';
@@ -80,16 +80,6 @@ function checkGuess(condition) {
   setTimeout(startGame, 2000);
 }
 
-// 事件监听：投注金额选择
-document.querySelectorAll('.bet-btn').forEach(button => {
-  button.addEventListener('click', () => currentBet = parseInt(button.dataset.bet));
-});
-
-// 事件监听：猜测按钮
-['high', 'low', 'red', 'black'].forEach(guess => {
-  document.getElementById(`btn-${guess}`).addEventListener('click', () => checkGuess(guess));
-});
-
 // 打开奖励弹窗
 document.getElementById('reward-btn').addEventListener('click', () => {
   document.getElementById('modal').style.display = 'block';
@@ -123,8 +113,19 @@ document.querySelectorAll('.reward-option').forEach(button => {
   });
 });
 
+// 事件监听：投注金额选择
+document.querySelectorAll('.bet-btn').forEach(button => {
+  button.addEventListener('click', () => currentBet = parseInt(button.dataset.bet));
+});
+
+// 事件监听：猜测按钮
+['high', 'low', 'red', 'black'].forEach(guess => {
+  document.getElementById(`btn-${guess}`).addEventListener('click', () => checkGuess(guess));
+});
+
 // 初始化游戏
 window.onload = () => {
   updateDisplay();
   startGame();
 };
+
