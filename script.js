@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let balance = 500;
   let points = 0;
   let currentBet = 100;
+
   let previousCard2 = getRandomCard();
   let previousCard3 = getRandomCard();
 
@@ -51,14 +52,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Reward功能
   function openRewardPopup() {
-    document.getElementById('modal').style.display = 'block';
-    document.getElementById('modal-message').textContent = 'You redeemed 200 points for +200 Balance!';
+    let rewardMessage = '';
     if (points >= 200) {
-      points -= 200;
-      balance += 200;
+      points -= 200; // 扣除 200 积分
+      balance += 200; // 添加 200 余额
+      rewardMessage = 'You redeemed 200 points for +200 Balance!';
     } else {
-      document.getElementById('modal-message').textContent = 'Not enough points!';
+      rewardMessage = 'Not enough points to redeem this reward!';
     }
+
+    // 显示弹窗
+    document.getElementById('modal-message').textContent = rewardMessage;
+    document.getElementById('modal').style.display = 'block';
     updateDisplay();
   }
 

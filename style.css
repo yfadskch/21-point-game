@@ -47,6 +47,13 @@ button:hover {
   background: #ffa500;
 }
 
+.free-credit-link {
+  display: inline-block;
+  margin-top: 10px;
+  color: #00bfff;
+  text-decoration: none;
+}
+
 .modal {
   display: none;
   position: fixed;
