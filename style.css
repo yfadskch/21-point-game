@@ -1,88 +1,63 @@
 body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    background: url('https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExNXpwaGxjYzJ1OHN1eGR3MHR3d2xlcTd1b3JvN2l5NWJiOXEzMjBkbyZlcD12MV9pbnRlcm5naWZfYnlfaWQmY3Q9Zw/xytwrhaA1JSbBtgxew/giphy.gif') no-repeat center center fixed;
-    background-size: cover;
-    color: #333;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background-color: #f3f4f6;
+  color: #333;
+  margin: 0;
+  padding: 0;
 }
 
 .game-container {
-    background: rgba(255, 255, 255, 0.9);
-    padding: 20px;
-    border-radius: 8px;
-    display: inline-block;
-    margin-top: 50px;
+  padding: 20px;
 }
 
-.cards {
-    display: flex;
-    justify-content: center;
-    margin: 20px 0;
+h1 {
+  margin-bottom: 20px;
+}
+
+#card-display {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
 }
 
 .card {
-    width: 80px;
-    height: 120px;
-    border: 2px solid blue;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    margin: 0 10px;
-    background-color: white;
+  width: 100px;
+  height: 150px;
+  background-color: white;
+  border: 2px solid #ccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  font-weight: bold;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.bet-buttons, .guess-buttons {
-    margin: 10px 0;
+#controls {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
 }
 
-.chip {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    font-size: 16px;
-    border: none;
-    color: white;
-    margin: 5px;
-}
-
-.chip.blue {
-    background-color: blue;
-}
-
-.chip.green {
-    background-color: green;
-}
-
-.chip.yellow {
-    background-color: yellow;
-    color: black;
-}
-
-.guess-btn {
-    padding: 10px 20px;
-    margin: 5px;
-    background-color: orange;
-    border: none;
-    border-radius: 5px;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-.redeem-btn {
-    background-color: red;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
+button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
 }
 
 #message {
-    font-size: 18px;
-    font-weight: bold;
-    color: red;
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+
+#btn-restart {
+  padding: 10px 20px;
+  font-size: 1rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
 }

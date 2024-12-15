@@ -1,35 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Card Guessing Game</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guess the Card</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="game-container">
-        <h1>Card Guessing Game</h1>
-        <div class="cards">
-            <div id="card1" class="card">?</div>
-            <div id="card2" class="card">?</div>
-            <div id="card3" class="card">?</div>
-        </div>
-        <p>Credit: <span id="credit">200</span> Bet: <span id="bet">10</span> Point: <span id="point">100</span></p>
-        <div class="bet-buttons">
-            <button class="chip blue" onclick="changeBet(10)">10</button>
-            <button class="chip green" onclick="changeBet(20)">20</button>
-            <button class="chip yellow" onclick="changeBet(50)">50</button>
-        </div>
-        <p>Make a Guess:</p>
-        <div class="guess-buttons">
-            <button class="guess-btn" onclick="makeGuess('High')">High</button>
-            <button class="guess-btn" onclick="makeGuess('Low')">Low</button>
-            <button class="guess-btn" onclick="makeGuess('Red')">Red</button>
-            <button class="guess-btn" onclick="makeGuess('Black')">Black</button>
-        </div>
-        <button class="redeem-btn" onclick="redeemRewards()">Redeem Rewards</button>
-        <p id="message"></p>
+  <div class="game-container">
+    <h1>Guess the Card Game</h1>
+    <div id="card-display">
+      <div id="card1" class="card">?</div>
+      <div id="card2" class="card">?</div>
+      <div id="card3" class="card">?</div>
     </div>
-    <script src="script.js"></script>
+    <div id="controls">
+      <button id="btn-high">Higher</button>
+      <button id="btn-low">Lower</button>
+      <button id="btn-red">Red</button>
+      <button id="btn-black">Black</button>
+    </div>
+    <div id="message"></div>
+    <button id="btn-restart">Restart</button>
+  </div>
+  <script src="script.js"></script>
 </body>
 </html>
