@@ -14,17 +14,25 @@ function displayCard(card, elementId) {
 }
 
 // Game state
+let previousCard2 = null;
+let previousCard3 = null;
 let card1, card2, card3;
 
 // Initialize game
 function startGame() {
-  card1 = getRandomCard();
-  card2 = getRandomCard();
+  // Set the previous round's card2 and card3 as card1 and card2
+  card1 = previousCard2 ? previousCard2 : getRandomCard();
+  card2 = previousCard3 ? previousCard3 : getRandomCard();
+
+  // Generate a new random card for card3
   card3 = getRandomCard();
 
+  // Display the cards
   displayCard(card1, 'card1');
   displayCard(card2, 'card2');
   document.getElementById('card3').textContent = '?';
+
+  // Clear message
   document.getElementById('message').textContent = 'Make your guess!';
 }
 
@@ -42,7 +50,12 @@ function checkGuess(guess) {
     messageElement.textContent = result ? 'You guessed correctly!' : 'Wrong guess!';
   }
 
+  // Display card3
   displayCard(card3, 'card3');
+
+  // Update previous cards for the next round
+  previousCard2 = card2;
+  previousCard3 = card3;
 }
 
 // Attach event listeners
