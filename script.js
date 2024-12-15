@@ -9,22 +9,49 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('points').textContent = points;
   }
 
-  // 打开奖励弹窗
-  function openRewardPopup() {
-    document.getElementById('modal').style.display = 'block';
-    document.getElementById('modal-message').textContent = 'Select your reward!';
+  // 获取随机卡牌
+  function getRandomCard() {
+    const suits = ['hearts', 'diamonds', 'clubs', 'spades'];
+    return { suit: suits[Math.floor(Math.random() * suits.length)], value: Math.floor(Math.random() * 13) + 1 };
   }
 
-  // 关闭奖励弹窗
-  function closeRewardPopup() {
-    document.getElementById('modal').style.display = 'none';
+  // 设置卡牌显示
+  function setCardDisplay(cardElement, card) {
+    cardElement.textContent = card.value;
+    cardElement.style.color = ['hearts', 'diamonds'].includes(card.suit) ? 'red' : 'black';
   }
 
-  // 监听 Credit Reward 按钮
-  document.getElementById('reward-btn').addEventListener('click', openRewardPopup);
-  document.getElementById('close-modal').addEventListener('click', closeRewardPopup);
+  // 处理猜测逻辑
+  function checkGuess(condition) {
+    const card3 = getRandomCard();
+    setCardDisplay(document.getElementById('card3'), card3);
 
-  // 监听 Bet 按钮
+    const isRed = ['hearts', 'diamonds'].includes(card3.suit);
+    const correct = (condition === 'red' && isRed) || (condition === 'black' && !isRed);
+
+    if (correct) {
+      balance += currentBet;
+      points += 100;
+      document.getElementById('message').textContent = 'You guessed correctly!';
+    } else {
+      balance -= currentBet;
+      points += 50;
+      document.getElementById('message').textContent = 'Wrong guess!';
+    }
+
+    updateDisplay();
+    setTimeout(startGame, 2000);
+  }
+
+  // 开始游戏
+  function startGame() {
+    document.getElementById('card1').textContent = '?';
+    document.getElementById('card2').textContent = '?';
+    document.getElementById('card3').textContent = '?';
+    document.getElementById('message').textContent = 'Make Your Guess!';
+  }
+
+  // 监听投注按钮
   document.querySelectorAll('.bet-btn').forEach(button => {
     button.addEventListener('click', () => {
       currentBet = parseInt(button.dataset.bet);
@@ -32,18 +59,9 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // 监听 Red 和 Black 按钮
-  document.getElementById('btn-red').addEventListener('click', () => {
-    points += 50; // 示例：红色按钮加分
-    balance += currentBet;
-    updateDisplay();
-  });
+  document.getElementById('btn-red').addEventListener('click', () => checkGuess('red'));
+  document.getElementById('btn-black').addEventListener('click', () => checkGuess('black'));
 
-  document.getElementById('btn-black').addEventListener('click', () => {
-    points += 100; // 示例：黑色按钮加分
-    balance -= currentBet;
-    updateDisplay();
-  });
-
-  // 初始化显示
   updateDisplay();
+  startGame();
 });

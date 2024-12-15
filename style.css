@@ -7,7 +7,8 @@ body, h1, p, div, button {
 body {
   font-family: 'Arial', sans-serif;
   text-align: center;
-  background: #222;
+  background: url('https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExY29ucjJ5Y3JxcndmdTdnOHFmeTA2dXI4b3hyYjAycDJmajZzenNtMCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/xytwrhaA1JSbBtgxew/giphy.gif') no-repeat center center fixed;
+  background-size: cover;
   color: white;
 }
 
