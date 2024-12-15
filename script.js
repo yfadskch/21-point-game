@@ -50,26 +50,43 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(startGame, 2000);
   }
 
-  // Reward功能
   function openRewardPopup() {
-    let rewardMessage = '';
-    if (points >= 200) {
-      points -= 200; // 扣除 200 积分
-      balance += 200; // 添加 200 余额
-      rewardMessage = 'You redeemed 200 points for +200 Balance!';
+    document.getElementById('modal').style.display = 'block';
+  }
+
+  function claimReward(option) {
+    let message = '';
+    if (option === '1' && points >= 200) {
+      points -= 200;
+      balance += 200;
+      message = 'You redeemed 200 points for +200 Balance!';
+    } else if (option === '2' && points >= 1000) {
+      points -= 1000;
+      balance += 1000;
+      message = 'You redeemed 1000 points for +1000 Balance!';
+    } else if (option === '3' && points >= 3000) {
+      points -= 3000;
+      balance += 3000;
+      message = 'You redeemed 3000 points for Free 8.88!';
     } else {
-      rewardMessage = 'Not enough points to redeem this reward!';
+      message = 'Not enough points to redeem this reward!';
     }
 
-    // 显示弹窗
-    document.getElementById('modal-message').textContent = rewardMessage;
-    document.getElementById('modal').style.display = 'block';
+    document.getElementById('modal-message').textContent = message;
     updateDisplay();
   }
 
-  document.getElementById('reward-btn').addEventListener('click', openRewardPopup);
-  document.getElementById('close-modal').addEventListener('click', () => {
+  function closeRewardPopup() {
     document.getElementById('modal').style.display = 'none';
+  }
+
+  document.getElementById('reward-btn').addEventListener('click', openRewardPopup);
+  document.getElementById('close-modal').addEventListener('click', closeRewardPopup);
+
+  document.querySelectorAll('.reward-option').forEach(button => {
+    button.addEventListener('click', () => {
+      claimReward(button.dataset.option);
+    });
   });
 
   document.querySelectorAll('.bet-btn').forEach(button => {
