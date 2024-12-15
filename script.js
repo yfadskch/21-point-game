@@ -31,35 +31,10 @@ function startGame() {
   document.getElementById('message').textContent = 'Make Your Guess!';
 }
 
-// 检查猜测（Red 和 Black）
-function checkGuess(condition) {
-  const card3 = getRandomCard();
-  setCardDisplay(document.getElementById('card3'), card3);
-
-  let win = condition === 'red'
-    ? ['hearts', 'diamonds'].includes(card3.suit)
-    : ['clubs', 'spades'].includes(card3.suit);
-
-  if (win) {
-    balance += currentBet;
-    points += currentBet;
-    document.getElementById('message').textContent = 'You guessed correctly!';
-  } else {
-    balance -= currentBet;
-    document.getElementById('message').textContent = 'Wrong guess!';
-  }
-
-  previousCard2 = previousCard3;
-  previousCard3 = card3;
-
-  updateDisplay();
-  setTimeout(startGame, 2000);
-}
-
 // 打开奖励弹窗
 function openRewardPopup() {
   document.getElementById('modal').style.display = 'block';
-  document.getElementById('reward-message').textContent = ''; // 重置奖励消息内容
+  document.getElementById('reward-message').textContent = ''; // 重置内容
 }
 
 // 关闭奖励弹窗
@@ -71,7 +46,7 @@ function closeRewardPopup() {
 document.querySelectorAll('.reward-option').forEach(button => {
   button.addEventListener('click', () => {
     const option = button.dataset.option; // 获取奖励选项
-    let message = ''; // 存储奖励内容
+    let message = ''; // 存储奖励信息
 
     if (option === '1' && points >= 200) {
       balance += 200;
@@ -89,26 +64,15 @@ document.querySelectorAll('.reward-option').forEach(button => {
       message = 'Not enough points to redeem this reward!';
     }
 
-    document.getElementById('reward-message').textContent = message; // 显示奖励内容
+    document.getElementById('reward-message').textContent = message; // 显示奖励结果
     updateDisplay(); // 更新余额和积分显示
     setTimeout(closeRewardPopup, 2000); // 2秒后关闭弹窗
   });
 });
 
-// 监听 Credit Reward 按钮
+// 添加事件监听
 document.getElementById('reward-btn').addEventListener('click', openRewardPopup);
 document.getElementById('close-modal').addEventListener('click', closeRewardPopup);
-
-// 监听投注按钮
-document.querySelectorAll('.bet-btn').forEach(button => {
-  button.addEventListener('click', () => {
-    currentBet = parseInt(button.dataset.bet);
-  });
-});
-
-// 监听 Red 和 Black 按钮
-document.getElementById('btn-red').addEventListener('click', () => checkGuess('red'));
-document.getElementById('btn-black').addEventListener('click', () => checkGuess('black'));
 
 // 初始化游戏
 window.onload = () => {
