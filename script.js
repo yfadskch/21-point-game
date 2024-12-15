@@ -30,11 +30,7 @@ function cardValueToDisplay(value) {
 // 根据花色设置卡牌颜色
 function setCardDisplay(cardElement, card) {
   cardElement.textContent = cardValueToDisplay(card.value);
-  if (['hearts', 'diamonds'].includes(card.suit)) {
-    cardElement.style.color = 'red'; // 红色花色
-  } else {
-    cardElement.style.color = 'black'; // 黑色花色
-  }
+  cardElement.style.color = ['hearts', 'diamonds'].includes(card.suit) ? 'red' : 'black';
 }
 
 // 开始新一轮游戏
@@ -58,7 +54,7 @@ function checkGuess(condition) {
 
   let win = false;
 
-  // 比较逻辑
+  // 比较逻辑：数值大小
   if (condition === 'higher') win = card3.value > previousCard3.value;
   if (condition === 'lower') win = card3.value < previousCard3.value;
   if (condition === 'red') win = ['hearts', 'diamonds'].includes(card3.suit);
@@ -84,30 +80,50 @@ function checkGuess(condition) {
   setTimeout(startGame, 2000);
 }
 
-// 事件监听
+// 事件监听：投注金额选择
 document.querySelectorAll('.bet-btn').forEach(button => {
   button.addEventListener('click', () => currentBet = parseInt(button.dataset.bet));
 });
 
+// 事件监听：猜测按钮
 ['high', 'low', 'red', 'black'].forEach(guess => {
   document.getElementById(`btn-${guess}`).addEventListener('click', () => checkGuess(guess));
 });
 
+// 打开奖励弹窗
 document.getElementById('reward-btn').addEventListener('click', () => {
   document.getElementById('modal').style.display = 'block';
 });
 
+// 处理奖励选择
 document.querySelectorAll('.reward-option').forEach(button => {
   button.addEventListener('click', () => {
     const option = button.dataset.option;
-    if (option === '1' && points >= 200) { balance += 200; points -= 200; }
-    if (option === '2' && points >= 1000) { points -= 1000; }
-    if (option === '3' && points >= 3000) { points -= 3000; }
+    let rewardMessage = "";
+
+    if (option === '1' && points >= 200) {
+      balance += 200;
+      points -= 200;
+      rewardMessage = "You redeemed 200 Points for +200 Balance!";
+    } else if (option === '2' && points >= 1000) {
+      balance += 500; // Welcome Bonus
+      points -= 1000;
+      rewardMessage = "You redeemed 1000 Points for Welcome Bonus (+500 Balance)!";
+    } else if (option === '3' && points >= 3000) {
+      balance += 888; // Free 8.88 reward
+      points -= 3000;
+      rewardMessage = "You redeemed 3000 Points for Free 8.88!";
+    } else {
+      rewardMessage = "Not enough points to redeem this reward!";
+    }
+
+    document.getElementById('modal-message').textContent = rewardMessage;
     document.getElementById('modal').style.display = 'none';
     updateDisplay();
   });
 });
 
+// 初始化游戏
 window.onload = () => {
   updateDisplay();
   startGame();
