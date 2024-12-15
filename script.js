@@ -41,6 +41,7 @@ function checkGuess(condition) {
   if (condition === 'black') win = ['clubs', 'spades'].includes(card3.suit);
 
   if (win) {
+    // 猜对时增加余额和积分
     balance += currentBet;
     points += currentBet;
     document.getElementById('message').textContent = 'You guessed correctly!';
@@ -49,7 +50,8 @@ function checkGuess(condition) {
     document.getElementById('message').textContent = 'Wrong guess!';
   }
 
-  previousCard2 = previousCard3; // 更新牌
+  // 更新前一轮的卡牌状态
+  previousCard2 = previousCard3;
   previousCard3 = card3;
 
   updateDisplay();
@@ -58,18 +60,27 @@ function checkGuess(condition) {
   setTimeout(startGame, 2000);
 }
 
-// 监听事件
+// 打开奖励弹窗
+function openRewardPopup() {
+  document.getElementById('modal').style.display = 'block';
+}
+
+function closeRewardPopup() {
+  document.getElementById('modal').style.display = 'none';
+}
+
+// 投注按钮事件监听
 document.querySelectorAll('.bet-btn').forEach(button => {
   button.addEventListener('click', () => currentBet = parseInt(button.dataset.bet));
 });
 
+// 猜测按钮事件监听
 ['high', 'low', 'red', 'black'].forEach(guess => {
   document.getElementById(`btn-${guess}`).addEventListener('click', () => checkGuess(guess));
 });
 
-document.getElementById('reward-btn').addEventListener('click', () => {
-  document.getElementById('modal').style.display = 'block';
-});
+// 奖励按钮事件监听
+document.getElementById('reward-btn').addEventListener('click', openRewardPopup);
 
 document.querySelectorAll('.reward-option').forEach(button => {
   button.addEventListener('click', () => {
