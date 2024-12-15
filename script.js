@@ -1,8 +1,8 @@
 let balance = 200;
 let points = 0;
 let currentBet = 100;
-let previousCard2 = { value: '?', suit: 'unknown' };
-let previousCard3 = { value: '?', suit: 'unknown' };
+let previousCard2 = { value: 0, suit: "unknown" };
+let previousCard3 = { value: 0, suit: "unknown" };
 
 // 更新显示
 function updateDisplay() {
@@ -41,7 +41,6 @@ function checkGuess(condition) {
   if (condition === 'black') win = ['clubs', 'spades'].includes(card3.suit);
 
   if (win) {
-    // 猜对时增加余额和积分
     balance += currentBet;
     points += currentBet;
     document.getElementById('message').textContent = 'You guessed correctly!';
@@ -50,44 +49,33 @@ function checkGuess(condition) {
     document.getElementById('message').textContent = 'Wrong guess!';
   }
 
-  // 更新前一轮的卡牌状态
   previousCard2 = previousCard3;
   previousCard3 = card3;
 
   updateDisplay();
-
-  // 2秒后隐藏并重置游戏
-  setTimeout(startGame, 2000);
+  setTimeout(startGame, 2000); // 2秒后自动重置游戏
 }
 
-// 打开奖励弹窗
-function openRewardPopup() {
-  document.getElementById('modal').style.display = 'block';
-}
-
-function closeRewardPopup() {
-  document.getElementById('modal').style.display = 'none';
-}
-
-// 投注按钮事件监听
+// 监听事件
 document.querySelectorAll('.bet-btn').forEach(button => {
   button.addEventListener('click', () => currentBet = parseInt(button.dataset.bet));
 });
 
-// 猜测按钮事件监听
 ['high', 'low', 'red', 'black'].forEach(guess => {
   document.getElementById(`btn-${guess}`).addEventListener('click', () => checkGuess(guess));
 });
 
-// 奖励按钮事件监听
-document.getElementById('reward-btn').addEventListener('click', openRewardPopup);
+// 打开奖励弹窗
+document.getElementById('reward-btn').addEventListener('click', () => {
+  document.getElementById('modal').style.display = 'block';
+});
 
 document.querySelectorAll('.reward-option').forEach(button => {
   button.addEventListener('click', () => {
     const option = button.dataset.option;
     if (option === '1' && points >= 200) { balance += 200; points -= 200; }
-    else if (option === '2' && points >= 1000) { points -= 1000; }
-    else if (option === '3' && points >= 3000) { points -= 3000; }
+    if (option === '2' && points >= 1000) { points -= 1000; }
+    if (option === '3' && points >= 3000) { points -= 3000; }
     document.getElementById('modal-message').textContent = "Reward claimed!";
     document.getElementById('modal').style.display = 'none';
     updateDisplay();
