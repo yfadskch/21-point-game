@@ -25,45 +25,43 @@ let card1, card2, card3;
 
 // Initialize game
 function startGame() {
-  // Set the previous round's card2 and card3 as card1 and card2
   card1 = previousCard2 ? previousCard2 : getRandomCard();
   card2 = previousCard3 ? previousCard3 : getRandomCard();
-
-  // Generate a new random card for card3
   card3 = getRandomCard();
 
-  // Display the cards
   displayCard(card1, 'card1');
   displayCard(card2, 'card2');
-  displayCard('?', 'card3'); // Third card hidden
+  displayCard('?', 'card3');
 
-  // Clear message
   document.getElementById('message').textContent = 'Make your guess!';
 }
 
 // Check result
 function checkGuess(guess) {
   const messageElement = document.getElementById('message');
+  const card3Element = document.getElementById('card3');
 
-  if (guess === 'higher' || guess === 'lower') {
-    const isHigher = card3.value > card2.value;
-    const result = (guess === 'higher' && isHigher) || (guess === 'lower' && !isHigher);
-    messageElement.textContent = result ? 'You guessed correctly!' : 'Wrong guess!';
-  } else if (guess === 'red' || guess === 'black') {
-    const isRed = ['hearts', 'diamonds'].includes(card3.suit);
-    const result = (guess === 'red' && isRed) || (guess === 'black' && !isRed);
-    messageElement.textContent = result ? 'You guessed correctly!' : 'Wrong guess!';
+  let result = false;
+
+  if (guess === 'higher') {
+    result = card3.value > card2.value;
+  } else if (guess === 'lower') {
+    result = card3.value < card2.value;
+  } else if (guess === 'red') {
+    result = ['hearts', 'diamonds'].includes(card3.suit);
+  } else if (guess === 'black') {
+    result = ['clubs', 'spades'].includes(card3.suit);
   }
 
-  // Display card3 temporarily to show result
-  displayCard(card3, 'card3');
+  messageElement.textContent = result ? 'You guessed correctly!' : 'Wrong guess!';
+  displayCard(card3, 'card3'); // Temporarily display card3
 
-  // Hide the third card after 2 seconds and start next round
+  // Hide card3 and start a new round after 2 seconds
   setTimeout(() => {
-    displayCard('?', 'card3'); // Hide card3 again
+    displayCard('?', 'card3'); // Hide card3
     previousCard2 = card2; // Update previous cards
     previousCard3 = card3;
-    startGame();
+    startGame(); // Restart game
   }, 2000);
 }
 
