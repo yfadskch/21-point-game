@@ -5,25 +5,21 @@ let currentBet = 100;
 let previousCard2 = getRandomCard();
 let previousCard3 = getRandomCard();
 
-// 更新显示余额和积分
 function updateDisplay() {
   document.getElementById('balance').textContent = balance;
   document.getElementById('points').textContent = points;
 }
 
-// 生成随机卡牌
 function getRandomCard() {
   const suits = ['hearts', 'diamonds', 'clubs', 'spades'];
   return { suit: suits[Math.floor(Math.random() * suits.length)], value: Math.floor(Math.random() * 13) + 1 };
 }
 
-// 显示卡牌
 function setCardDisplay(cardElement, card) {
   cardElement.textContent = card.value === 1 ? 'A' : card.value === 11 ? 'J' : card.value === 12 ? 'Q' : card.value === 13 ? 'K' : card.value;
   cardElement.style.color = ['hearts', 'diamonds'].includes(card.suit) ? 'red' : 'black';
 }
 
-// 开始新一轮
 function startGame() {
   setCardDisplay(document.getElementById('card1'), previousCard2);
   setCardDisplay(document.getElementById('card2'), previousCard3);
@@ -31,17 +27,13 @@ function startGame() {
   document.getElementById('message').textContent = 'Make Your Guess!';
 }
 
-// 检查猜测
 function checkGuess(condition) {
   const card3 = getRandomCard();
   setCardDisplay(document.getElementById('card3'), card3);
 
-  let win = false;
-
-  if (condition === 'higher') win = card3.value > previousCard3.value;
-  if (condition === 'lower') win = card3.value < previousCard3.value;
-  if (condition === 'red') win = ['hearts', 'diamonds'].includes(card3.suit);
-  if (condition === 'black') win = ['clubs', 'spades'].includes(card3.suit);
+  let win = condition === 'red'
+    ? ['hearts', 'diamonds'].includes(card3.suit)
+    : ['clubs', 'spades'].includes(card3.suit);
 
   if (win) {
     balance += currentBet;
@@ -59,7 +51,6 @@ function checkGuess(condition) {
   setTimeout(startGame, 2000);
 }
 
-// Reward 功能
 document.getElementById('reward-btn').addEventListener('click', () => {
   document.getElementById('modal').style.display = 'block';
 });
@@ -77,14 +68,12 @@ document.querySelectorAll('.reward-option').forEach(button => {
   });
 });
 
-// 监听按钮
 document.querySelectorAll('.bet-btn').forEach(button => {
   button.addEventListener('click', () => currentBet = parseInt(button.dataset.bet));
 });
 
-['high', 'low', 'red', 'black'].forEach(guess => {
-  document.getElementById(`btn-${guess}`).addEventListener('click', () => checkGuess(guess));
-});
+document.getElementById('btn-red').addEventListener('click', () => checkGuess('red'));
+document.getElementById('btn-black').addEventListener('click', () => checkGuess('black'));
 
 window.onload = () => {
   updateDisplay();
