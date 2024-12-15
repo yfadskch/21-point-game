@@ -3,25 +3,53 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Guess Card</title>
+  <title>Guess Card V2</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="game-container">
-    <h1>Guess Card</h1>
+    <h1>Guess Card V2</h1>
+    <p>Current Balance: <span id="balance">200</span></p>
+    <p>Current Points: <span id="points">0</span></p>
     <div id="card-display">
       <div id="card1" class="card">?</div>
       <div id="card2" class="card">?</div>
       <div id="card3" class="card">?</div>
     </div>
+
+    <!-- Bet Options -->
+    <div id="bet-controls">
+      <p>Select Your Bet:</p>
+      <button class="bet-btn" data-bet="100">100</button>
+      <button class="bet-btn" data-bet="200">200</button>
+      <button class="bet-btn" data-bet="500">500</button>
+    </div>
+
+    <!-- Guess Controls -->
     <div id="controls">
       <button id="btn-high" class="control-btn">Higher</button>
       <button id="btn-low" class="control-btn">Lower</button>
       <button id="btn-red" class="control-btn">Red</button>
       <button id="btn-black" class="control-btn">Black</button>
     </div>
+
+    <!-- Message and Reward -->
     <div id="message"></div>
+    <button id="reward-btn">Credit Reward</button>
+    <a href="https://heylink.me/klking88/" target="_blank" class="free-credit-link">Free Credit Tanpa Deposit</a>
   </div>
+
+  <!-- Modal Popup -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <h2>Choose a Reward</h2>
+      <button class="reward-option" data-option="1">200 Points: +200 Balance</button>
+      <button class="reward-option" data-option="2">1000 Points: Welcome Bonus</button>
+      <button class="reward-option" data-option="3">3000 Points: Free 8.88</button>
+      <p id="modal-message"></p>
+    </div>
+  </div>
+
   <script src="script.js"></script>
 </body>
 </html>

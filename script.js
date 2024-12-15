@@ -1,75 +1,91 @@
-// Utility to generate a random card
+let balance = 200;
+let points = 0;
+let currentBet = 100;
+
+function updateDisplay() {
+  document.getElementById('balance').textContent = balance;
+  document.getElementById('points').textContent = points;
+}
+
 function getRandomCard() {
   const suits = ['hearts', 'diamonds', 'clubs', 'spades'];
-  const suit = suits[Math.floor(Math.random() * suits.length)];
-  const value = Math.floor(Math.random() * 13) + 1; // 1 to 13
+  const suit = suits[Math.floor(Math.random() * 4)];
+  const value = Math.floor(Math.random() * 13) + 1;
   return { suit, value };
 }
 
-// Display card values
-function displayCard(card, elementId) {
-  const element = document.getElementById(elementId);
-  if (card === '?') {
-    element.textContent = '?';
-    element.style.color = 'black';
-  } else {
-    element.textContent = card.value;
-    element.style.color = ['hearts', 'diamonds'].includes(card.suit) ? 'red' : 'black';
-  }
-}
-
-// Game state
-let previousCard2 = null;
-let previousCard3 = null;
-let card1, card2, card3;
-
-// Initialize game
 function startGame() {
-  card1 = previousCard2 ? previousCard2 : getRandomCard();
-  card2 = previousCard3 ? previousCard3 : getRandomCard();
-  card3 = getRandomCard();
-
-  displayCard(card1, 'card1');
-  displayCard(card2, 'card2');
-  displayCard('?', 'card3');
-
-  document.getElementById('message').textContent = 'Make your guess!';
+  document.getElementById('card1').textContent = '?';
+  document.getElementById('card2').textContent = '?';
+  document.getElementById('card3').textContent = '?';
+  document.getElementById('message').textContent = 'Make Your Guess!';
 }
 
-// Check result
-function checkGuess(guess) {
-  const messageElement = document.getElementById('message');
-  const card3Element = document.getElementById('card3');
+function checkGuess(condition) {
+  const card3 = getRandomCard();
+  document.getElementById('card3').textContent = card3.value;
 
-  let result = false;
+  const card2Value = 5; // Fixed card2 value for example
+  let win = false;
 
-  if (guess === 'higher') {
-    result = card3.value > card2.value;
-  } else if (guess === 'lower') {
-    result = card3.value < card2.value;
-  } else if (guess === 'red') {
-    result = ['hearts', 'diamonds'].includes(card3.suit);
-  } else if (guess === 'black') {
-    result = ['clubs', 'spades'].includes(card3.suit);
+  if (condition === 'higher') win = card3.value > card2Value;
+  else if (condition === 'lower') win = card3.value < card2Value;
+
+  if (win) {
+    balance += currentBet;
+    points += currentBet;
+    document.getElementById('message').textContent = 'You guessed correctly!';
+  } else {
+    balance -= currentBet;
+    document.getElementById('message').textContent = 'Wrong guess!';
   }
 
-  messageElement.textContent = result ? 'You guessed correctly!' : 'Wrong guess!';
-  displayCard(card3, 'card3'); // Temporarily display card3
-
-  // Hide card3 and start a new round after 2 seconds
-  setTimeout(() => {
-    displayCard('?', 'card3'); // Hide card3
-    previousCard2 = card2; // Update previous cards
-    previousCard3 = card3;
-    startGame(); // Restart game
-  }, 2000);
+  updateDisplay();
 }
 
-// Attach event listeners
+function openRewardPopup() {
+  document.getElementById('modal').style.display = 'block';
+}
+
+function closeRewardPopup() {
+  document.getElementById('modal').style.display = 'none';
+}
+
+document.querySelectorAll('.bet-btn').forEach(button => {
+  button.addEventListener('click', () => {
+    currentBet = parseInt(button.dataset.bet);
+  });
+});
+
+document.getElementById('reward-btn').addEventListener('click', openRewardPopup);
+
+document.querySelectorAll('.reward-option').forEach(button => {
+  button.addEventListener('click', () => {
+    const option = button.dataset.option;
+    let message = '';
+
+    if (option === '1' && points >= 200) {
+      balance += 200;
+      points -= 200;
+      message = 'You redeemed 200 Points for +200 Balance!';
+    } else if (option === '2' && points >= 1000) {
+      message = 'You redeemed 1000 Points for Welcome Bonus!';
+    } else if (option === '3' && points >= 3000) {
+      message = 'You redeemed 3000 Points for Free 8.88!';
+    } else {
+      message = 'Not enough points to redeem this reward!';
+    }
+
+    document.getElementById('modal-message').textContent = message;
+    updateDisplay();
+    setTimeout(closeRewardPopup, 2000);
+  });
+});
+
 document.getElementById('btn-high').addEventListener('click', () => checkGuess('higher'));
 document.getElementById('btn-low').addEventListener('click', () => checkGuess('lower'));
-document.getElementById('btn-red').addEventListener('click', () => checkGuess('red'));
-document.getElementById('btn-black').addEventListener('click', () => checkGuess('black'));
 
-// Automatically start the game when the page loads
-window.onload = startGame;
+window.onload = () => {
+  updateDisplay();
+  startGame();
+};
