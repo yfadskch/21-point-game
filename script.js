@@ -9,8 +9,13 @@ function getRandomCard() {
 // Display card values
 function displayCard(card, elementId) {
   const element = document.getElementById(elementId);
-  element.textContent = card.value;
-  element.style.color = ['hearts', 'diamonds'].includes(card.suit) ? 'red' : 'black';
+  if (card === '?') {
+    element.textContent = '?';
+    element.style.color = 'black';
+  } else {
+    element.textContent = card.value;
+    element.style.color = ['hearts', 'diamonds'].includes(card.suit) ? 'red' : 'black';
+  }
 }
 
 // Game state
@@ -30,7 +35,7 @@ function startGame() {
   // Display the cards
   displayCard(card1, 'card1');
   displayCard(card2, 'card2');
-  document.getElementById('card3').textContent = '?';
+  displayCard('?', 'card3'); // Third card hidden
 
   // Clear message
   document.getElementById('message').textContent = 'Make your guess!';
@@ -50,12 +55,16 @@ function checkGuess(guess) {
     messageElement.textContent = result ? 'You guessed correctly!' : 'Wrong guess!';
   }
 
-  // Display card3
+  // Display card3 temporarily to show result
   displayCard(card3, 'card3');
 
-  // Update previous cards for the next round
-  previousCard2 = card2;
-  previousCard3 = card3;
+  // Hide the third card after 2 seconds and start next round
+  setTimeout(() => {
+    displayCard('?', 'card3'); // Hide card3 again
+    previousCard2 = card2; // Update previous cards
+    previousCard3 = card3;
+    startGame();
+  }, 2000);
 }
 
 // Attach event listeners
