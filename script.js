@@ -3,6 +3,9 @@ document.addEventListener('DOMContentLoaded', () => {
   let points = 0;    // 初始积分
   let currentBet = 100;
 
+  let previousCard2 = getRandomCard(); // 初始第二张牌
+  let previousCard3 = getRandomCard(); // 初始第三张牌
+
   // 更新余额和积分显示
   function updateDisplay() {
     document.getElementById('balance').textContent = balance;
@@ -19,6 +22,19 @@ document.addEventListener('DOMContentLoaded', () => {
   function setCardDisplay(cardElement, card) {
     cardElement.textContent = card.value;
     cardElement.style.color = ['hearts', 'diamonds'].includes(card.suit) ? 'red' : 'black';
+  }
+
+  // 开始游戏
+  function startGame() {
+    // 第一张卡牌：显示上一轮的第二张牌
+    setCardDisplay(document.getElementById('card1'), previousCard2);
+
+    // 第二张卡牌：显示上一轮的第三张牌
+    setCardDisplay(document.getElementById('card2'), previousCard3);
+
+    // 第三张卡牌：等待玩家猜测
+    document.getElementById('card3').textContent = '?';
+    document.getElementById('message').textContent = 'Make Your Guess!';
   }
 
   // 处理猜测逻辑
@@ -39,16 +55,12 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('message').textContent = 'Wrong guess!';
     }
 
-    updateDisplay();
-    setTimeout(startGame, 2000);
-  }
+    // 更新上一轮数据
+    previousCard2 = previousCard3;
+    previousCard3 = card3;
 
-  // 开始游戏
-  function startGame() {
-    document.getElementById('card1').textContent = '?';
-    document.getElementById('card2').textContent = '?';
-    document.getElementById('card3').textContent = '?';
-    document.getElementById('message').textContent = 'Make Your Guess!';
+    updateDisplay();
+    setTimeout(startGame, 2000); // 2秒后开始下一轮
   }
 
   // 监听投注按钮
