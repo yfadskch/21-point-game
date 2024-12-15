@@ -52,28 +52,43 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(startGame, 2000);
   }
 
+  function showRewardModal(message) {
+    document.getElementById('reward-message').textContent = message;
+    document.getElementById('modal').style.display = 'block';
+  }
+
+  // Reward 功能
+  document.getElementById('reward-btn').addEventListener('click', () => {
+    let rewardMessage = '';
+    if (points >= 200) {
+      balance += 200;
+      points -= 200;
+      rewardMessage = 'You received +200 Balance for 200 Points!';
+    } else if (points >= 1000) {
+      balance += 500;
+      points -= 1000;
+      rewardMessage = 'You received Welcome Bonus: +500 Balance!';
+    } else if (points >= 3000) {
+      balance += 888;
+      points -= 3000;
+      rewardMessage = 'You received Free Credit: +888 Balance!';
+    } else {
+      rewardMessage = 'Not enough points to redeem any reward!';
+    }
+    updateDisplay();
+    showRewardModal(rewardMessage);
+  });
+
+  document.getElementById('close-modal').addEventListener('click', () => {
+    document.getElementById('modal').style.display = 'none';
+  });
+
   document.querySelectorAll('.bet-btn').forEach(button => {
     button.addEventListener('click', () => currentBet = parseInt(button.dataset.bet));
   });
 
   document.getElementById('btn-red').addEventListener('click', () => checkGuess('red'));
   document.getElementById('btn-black').addEventListener('click', () => checkGuess('black'));
-
-  document.getElementById('reward-btn').addEventListener('click', () => {
-    document.getElementById('modal').style.display = 'block';
-  });
-
-  document.querySelectorAll('.reward-option').forEach(button => {
-    button.addEventListener('click', () => {
-      const option = button.dataset.option;
-      if (option === '1' && points >= 200) { balance += 200; points -= 200; }
-      else if (option === '2' && points >= 1000) { balance += 500; points -= 1000; }
-      else if (option === '3' && points >= 3000) { balance += 888; points -= 3000; }
-      else { alert('Not enough points to redeem this reward!'); }
-      document.getElementById('modal').style.display = 'none';
-      updateDisplay();
-    });
-  });
 
   updateDisplay();
   startGame();
