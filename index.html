@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<<<<<<< HEAD
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>21 Point Game - Enhanced Version</title>
@@ -32,5 +33,59 @@
     </div>
     <p id="highlight"></p>
     <script src="script.js"></script>
+=======
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guess Card V2.1 Enhanced</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="game-container">
+    <h1>Guess Card V2.1 Enhanced</h1>
+    <p>Current Balance: <span id="balance">500</span></p>
+    <p>Current Points: <span id="points">0</span></p>
+
+    <!-- Card Display -->
+    <div id="card-display">
+      <div id="card1" class="card">?</div>
+      <div id="card2" class="card">?</div>
+      <div id="card3" class="card">?</div>
+    </div>
+
+    <!-- Bet Controls -->
+    <div id="bet-controls">
+      <p>Select Your Bet:</p>
+      <button class="bet-btn" data-bet="100">100</button>
+      <button class="bet-btn" data-bet="200">200</button>
+      <button class="bet-btn" data-bet="500">500</button>
+    </div>
+
+    <!-- Guess Controls -->
+    <div id="controls">
+      <button id="btn-red" class="control-btn">Red</button>
+      <button id="btn-black" class="control-btn">Black</button>
+    </div>
+
+    <div id="message">Make Your Guess!</div>
+
+    <!-- Reward Button -->
+    <button id="reward-btn">Credit Reward</button>
+    <a href="https://heylink.me/klking88/" target="_blank" class="free-credit-link">Free Credit Tanpa Deposit</a>
+  </div>
+
+  <!-- Reward Modal -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <p>Choose Your Reward:</p>
+      <button class="reward-option" data-option="1">200 Points: +200 Balance</button>
+      <button class="reward-option" data-option="2">1000 Points: Welcome Bonus</button>
+      <button class="reward-option" data-option="3">3000 Points: Free 8.88</button>
+      <p id="modal-message"></p>
+      <button id="close-modal">Close</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+>>>>>>> d409743fb05a067b09ee9f15fab71809cc79d90e
 </body>
 </html>
