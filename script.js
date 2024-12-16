@@ -1,6 +1,6 @@
 const suits = ['♠', '♥', '♣', '♦'];
 const values = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
-let deck, playerHand, dealerHand, playerName = 'Player', round = 1, playerWins = 0, dealerWins = 0;
+let deck, playerHand, dealerHand, playerName = 'Player';
 
 function createDeck() {
     const deck = [];
@@ -34,20 +34,12 @@ function calculateScore(hand) {
 function displayHand(hand, containerId) {
     const container = document.getElementById(containerId);
     container.innerHTML = '';
-    hand.forEach((card, index) => {
+    hand.forEach(card => {
         const cardDiv = document.createElement('div');
         cardDiv.className = 'card';
         cardDiv.textContent = `${card.value}${card.suit}`;
-        cardDiv.style.animationDelay = `${index * 0.2}s`;
-        cardDiv.classList.add('dealing');
-        setTimeout(() => cardDiv.classList.remove('dealing'), 1000);
         container.appendChild(cardDiv);
     });
-}
-
-function updateProgress() {
-    document.getElementById('playerProgress').value = calculateScore(playerHand);
-    document.getElementById('dealerProgress').value = calculateScore(dealerHand);
 }
 
 function setPlayerName() {
@@ -59,24 +51,16 @@ function setPlayerName() {
     startGame();
 }
 
-function highlightSpecialRule(hand) {
-    const highlight = document.getElementById('highlight');
-    if (hand.length === 5 && calculateScore(hand) <= 21) {
-        highlight.textContent = `${playerName} achieved the Five Dragon Rule!`;
-    } else if (hand.length === 2 && hand[0].value === hand[1].value) {
-        highlight.textContent = `${playerName} got a Pair!`;
-    } else {
-        highlight.textContent = '';
-    }
-}
-
 function hit() {
     playerHand.push(deck.pop());
     displayHand(playerHand, 'playerCards');
     document.getElementById('playerScore').textContent = `Score: ${calculateScore(playerHand)}`;
-    highlightSpecialRule(playerHand);
-    updateProgress();
-    if (calculateScore(playerHand) > 21) determineWinner();
+    document.getElementById('playerProgress').value = calculateScore(playerHand);
+
+    if (calculateScore(playerHand) > 21) {
+        alert('You busted! Dealer wins.');
+        resetGame();
+    }
 }
 
 function stand() {
@@ -85,54 +69,35 @@ function stand() {
     }
     displayHand(dealerHand, 'dealerCards');
     document.getElementById('dealerScore').textContent = `Score: ${calculateScore(dealerHand)}`;
-    updateProgress();
-    determineWinner();
+    document.getElementById('dealerProgress').value = calculateScore(dealerHand);
+
+    if (calculateScore(dealerHand) > 21 || calculateScore(playerHand) > calculateScore(dealerHand)) {
+        alert(`${playerName} wins!`);
+    } else if (calculateScore(playerHand) < calculateScore(dealerHand)) {
+        alert('Dealer wins.');
+    } else {
+        alert('It\'s a tie!');
+    }
+
+    resetGame();
 }
 
-function determineWinner() {
-    const playerScore = calculateScore(playerHand);
-    const dealerScore = calculateScore(dealerHand);
-    if (playerScore > 21) {
-        dealerWins++;
-        alert('You busted! Dealer wins.');
-    } else if (dealerScore > 21) {
-        playerWins++;
-        alert('Dealer busted! You win.');
-    } else if (playerScore > dealerScore) {
-        playerWins++;
-        alert('You win this round!');
-    } else if (playerScore < dealerScore) {
-        dealerWins++;
-        alert('Dealer wins this round.');
-    } else {
-        alert("It's a tie!");
-    }
-
-    if (round >= 5) {
-        alert('Game Over! Claim your reward: Free Credit 3 (klking88.com)');
-        const link = document.createElement('a');
-        link.href = 'https://klking88.com';
-        link.target = '_blank';
-        link.textContent = 'Click here to claim your reward!';
-        link.style.display = 'block';
-        link.style.color = 'gold';
-        link.style.marginTop = '20px';
-        document.body.appendChild(link);
-    } else {
-        round++;
-        startGame();
-    }
+function resetGame() {
+    setTimeout(startGame, 1000);
 }
 
 function startGame() {
     deck = createDeck();
     playerHand = [deck.pop(), deck.pop()];
     dealerHand = [deck.pop(), deck.pop()];
+
     displayHand(playerHand, 'playerCards');
-    displayHand(dealerHand, 'dealerCards');
+    displayHand(dealerHand.slice(0, 1), 'dealerCards'); // Only show 1 dealer card
+
     document.getElementById('playerScore').textContent = `Score: ${calculateScore(playerHand)}`;
-    document.getElementById('dealerScore').textContent = `Score: ${calculateScore(dealerHand)}`;
-    updateProgress();
+    document.getElementById('dealerScore').textContent = 'Score: ?';
+    document.getElementById('playerProgress').value = calculateScore(playerHand);
+    document.getElementById('dealerProgress').value = 0;
 }
 
-startGame();
+document.addEventListener('DOMContentLoaded', startGame);
