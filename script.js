@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } else if (option === '2' && points >= 1000) {
       points -= 1000;
       balance += 1000;
-      message = 'You redeemed 1000 points for +1000 Balance!';
+      message = 'You redeemed 1000 points for Welcome Bonus';
     } else if (option === '3' && points >= 3000) {
       points -= 3000;
       balance += 3000;
