@@ -1,76 +1,63 @@
 body {
-  font-family: 'Arial', sans-serif;
-  text-align: center;
-  background: url('https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExY29ucjJ5Y3JxcndmdTdnOHFmeTA2dXI4b3hyYjAycDJmajZzenNtMCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/xytwrhaA1JSbBtgxew/giphy.gif') no-repeat center center fixed;
-  background-size: cover;
-  color: white;
-}
-
-.game-container {
-  background: rgba(0, 0, 0, 0.8);
-  border-radius: 10px;
-  padding: 20px;
-  width: 90%;
-  max-width: 600px;
-  margin: 50px auto;
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 20px;
+    background-color: #282c34;
+    color: white;
 }
 
 h1 {
-  color: #ffd700;
+    color: gold;
+}
+
+#gameBoard {
+    margin: 20px auto;
+    width: 350px;
+    border: 2px solid white;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 10px;
 }
 
 .card {
-  display: inline-block;
-  width: 100px;
-  height: 150px;
-  line-height: 150px;
-  background: white;
-  color: black;
-  font-size: 2rem;
-  margin: 10px;
-  border: 2px solid #ffd700;
-  border-radius: 10px;
+    display: inline-block;
+    width: 60px;
+    height: 80px;
+    border: 1px solid white;
+    margin: 5px;
+    background-color: white;
+    color: black;
+    text-align: center;
+    line-height: 80px;
+    font-size: 18px;
+    font-weight: bold;
 }
 
 button {
-  margin: 5px;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  background: #ffd700;
-  color: black;
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 10px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
 }
 
 button:hover {
-  background: #ffa500;
+    background-color: #45a049;
 }
 
-.free-credit-link {
-  display: inline-block;
-  margin-top: 10px;
-  color: #00bfff;
-  text-decoration: none;
+#playerProgress,
+#dealerProgress {
+    width: 100%;
+    height: 20px;
+    margin: 10px 0;
 }
 
-.modal {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.7);
-  z-index: 1000;
-}
-
-.modal-content {
-  background: white;
-  color: black;
-  padding: 20px;
-  border-radius: 10px;
-  width: 300px;
-  text-align: center;
-  margin: 20% auto;
+#highlight {
+    color: gold;
+    font-weight: bold;
+    font-size: 18px;
 }
