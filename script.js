@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
-  let balance = 500;
-  let points = 0;
+  let balance = 500; // 初始余额
+  let points = 0; // 初始积分
   let currentBet = 100;
 
   let previousCard2 = getRandomCard();
@@ -9,6 +9,16 @@ document.addEventListener('DOMContentLoaded', () => {
   function updateDisplay() {
     document.getElementById('balance').textContent = balance;
     document.getElementById('points').textContent = points;
+
+    // 更新投注按钮状态
+    document.querySelectorAll('.bet-btn').forEach(button => {
+      const betAmount = parseInt(button.dataset.bet);
+      if (balance >= betAmount) {
+        button.disabled = false;
+      } else {
+        button.disabled = true;
+      }
+    });
   }
 
   function getRandomCard() {
